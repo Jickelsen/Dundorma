@@ -1,0 +1,17 @@
+/vendor
+/node_modules
+/public/storage
+Homestead.yaml
+Homestead.json
+.env
+.tern-port
+/public/js
+npm-debug.log
+*.map
+
+
+# workspace files are user-specific
+*.sublime-workspace
+
+# project files
+*.sublime-project
