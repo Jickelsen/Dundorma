@@ -35,4 +35,11 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    //Socialite
+    'facebook' => [
+        'client_id'     => '1040276836048075',
+        'client_secret' => '5397811f06c0f4e5ce3b311bc982cb21',
+        'redirect'      => 'http://web.dundorma.084a6bd9.svc.dockerapp.io/login/callback/facebook',
+    ],
+
 ];
