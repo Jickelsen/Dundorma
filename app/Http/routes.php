@@ -14,6 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/halls', function () {
+    return view('halls');
+});
 
 Route::auth();
 
@@ -33,3 +36,9 @@ Route::get('/login/callback/{provider?}',[
     'uses' => 'AuthController@getSocialAuthCallback',
     'as'   => 'auth.getSocialAuthCallback'
 ]);
+
+//ajax
+Route::get('json/halls/all', 'HallController@all');
+Route::get('json/halls/others', 'HallController@others');
+Route::get('json/halls/owned', 'HallController@owned');
+Route::post('json/halls/create', 'HallController@create');
