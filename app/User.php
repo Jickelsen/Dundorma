@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'facebook_id', 'avatar',
+        'name', 'email', 'password', 'facebook_id', 'avatar', 'joined_hall', 'halls', 'joinedHall'
     ];
 
     /**
@@ -26,6 +26,11 @@ class User extends Authenticatable
 
     public function halls()
     {
-        return $this->hasMany(Hall::class);
+        return $this->hasMany(Hall::class, 'owner_id');
+    }
+
+    public function joinedHall ()
+    {
+    	return $this->belongsTo(Hall::class, 'joined_hall');
     }
 }

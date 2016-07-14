@@ -14,12 +14,12 @@ class CreateHallsTable extends Migration
     {
         Schema::create('halls', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->index();
+            $table->integer('owner')->index();
             $table->string('name');
             $table->string('desc');
-            $table->string('id');
+            $table->string('idcode');
             $table->string('pass');
-            $table->string('avatar');
+            $table->integer('private');
             $table->rememberToken();
             $table->timestamps();
         });

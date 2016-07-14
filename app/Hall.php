@@ -13,22 +13,21 @@ class Hall extends Model
      * @var array
      */
     protected $fillable = [
-    	'name', 'desc', 'idcode', 'pass', 
+    	'name', 'desc', 'idcode', 'pass'
     ];
 
     protected $casts = [
-        'players' => 'array',
         'private' => 'boolean'
     ];
 
-    public function creator()
+    public function owner()
     {
-    	return $this->belongsTo(User::class);
+    	return $this->belongsTo(User::class, 'owner_id');
     }
 
     public function players()
     {
 
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'joined_hall');
     }
 }
