@@ -26,7 +26,7 @@ class Halls extends React.Component {
       data: JSON.stringify({
             name: newHall.name,
             desc: newHall.desc,
-            idcode: newHall.idcode,
+            idcode: newHall.idCode,
             pass: newHall.pass,
             private: newHall.private,
           }),
@@ -45,7 +45,7 @@ class Halls extends React.Component {
             id: newHall.id,
             name: newHall.name,
             desc: newHall.desc,
-            idcode: newHall.idcode,
+            idcode: newHall.idCode,
             pass: newHall.pass,
             private: newHall.private,
       }),
