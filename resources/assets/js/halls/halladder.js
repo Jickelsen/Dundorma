@@ -4,10 +4,20 @@ import Modal from 'react-bootstrap-modal';
 export default class HallAdder extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {name:'', desc:'', idcode:'', pass:'', private: false, open:false};
+    let state = {name:'', desc:'', idcode:'', pass:'', private: false, open:false};
+    if (this.props.editmode && this.props.hall) {
+      this.state = {...state, ...this.props.hall};
+    } else {
+      this.state = state;
+    }
+  }
+  componentWillReceiveProps(newProps) {
+    if (!this.state.open) {
+      this.setState({...this.state, ...this.props.hall});
+    }
   }
   stateChange (key, value) {
-    console.log("Got " + key + " as " + value);
+    console.log("State change", value);
     this.state[key] = value;
     this.forceUpdate();
   }
@@ -17,9 +27,24 @@ export default class HallAdder extends React.Component {
       this.props.addHandler(this.state);
       this.setState({...this.state, open: false });
     };
+    let deleteAndClose = () => {
+      this.props.deleteHandler(this.state);
+      this.setState({...this.state, open: false });
+    };
+    let openButton;
+    let saveButton;
+    let deleteButton;
+    if (this.props.editmode) {
+      openButton = <button type='button' className='btn btn-secondary pull-right btn-sm' onClick={() => this.setState({...this.state, open: true }) }>Edit Hall</button>;
+      saveButton = <button className='btn btn-primary' onClick={saveAndClose}> Save Changes </button>
+      deleteButton = <button className='btn btn-danger pull-left' onClick={deleteAndClose}> Delete Hall </button>;
+    } else {
+      saveButton = <button className='btn btn-primary' onClick={saveAndClose}> Post Hall </button>
+      openButton = <button style={{marginTop: 20}}  type='button' className='btn btn-primary pull-right' onClick={() => this.setState({...this.state, open: true }) }>Post New Hall</button>;
+    }
     return (
       <div>
-        <button style={{marginTop: 20}}  type='button' className='btn btn-primary pull-right' onClick={() => this.setState({...this.state, open: true }) }>Post New Hall</button>
+        {openButton}
         <Modal
           show={this.state.open}
           onHide={closeModal}
@@ -39,17 +64,19 @@ export default class HallAdder extends React.Component {
               <input className="form-control" type="text" value={this.state.idcode} onChange = {(e) => this.stateChange("idcode", e.target.value)}/>
               <label>Password</label>
               <input className="form-control" type="text" value={this.state.pass} onChange = {(e) => this.stateChange("pass", e.target.value)}/>
-              <div class="checkbox">
-                <label><input type="checkbox" value=""/>Private</label>
+              <div className="checkbox">
+                <label><input type="checkbox" checked={this.state.private} onChange = {(e) => this.stateChange("private", e.target.checked)}/>Private</label>
               </div>
-              {/* <button className="col-xs-2" type="button" onClick={() => {console.log("add state", this.state); this.props.addHandler(this.state);}}>Post Hall</button> */}
+              {/* <button className="col-xs-2" type="button" onClick={() => {this.props.addHandler(this.state);}}>Post Hall</button> */}
             </div>
           </Modal.Body>
           <Modal.Footer>
+            {deleteButton}
             <Modal.Dismiss className='btn btn-default'>Cancel</Modal.Dismiss>
-            <button className='btn btn-primary' onClick={saveAndClose}>
-              Post Hall
-            </button>
+            {saveButton}
+            {/* <button className='btn btn-primary' onClick={saveAndClose}>
+            Post Hall
+            </button> */}
           </Modal.Footer>
         </Modal>
       </div>

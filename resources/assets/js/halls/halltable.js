@@ -1,16 +1,25 @@
 import React from 'react';
 import { Table, Thead, Th, Tr, Td } from 'reactable';
 
+import HallAdder from './halladder';
+
 export default class HallTable extends React.Component {
   render() {
     let data = [];
     if (this.props.data) {
       data = this.props.data;
     }
+    let editButton = function(editmode, halldata, updateHall, deleteHall) {
+      if (editmode) {
+        return <HallAdder editmode={true} addHandler={updateHall} deleteHandler={deleteHall} hall={halldata}/>;
+      } else {
+        return <div></div>;
+      }
+    };
+
     return (
       <div>
-        <Table className="table" sortable={true}
-        >
+        <Table className="table" sortable={true} >
           <Thead>
             <Th column="name">
               <strong>Name</strong>
@@ -32,11 +41,13 @@ export default class HallTable extends React.Component {
             </Th>
           </Thead>
           {data.map((hall, i) => {
-          console.log(hall.owner.name);
           return (
           <Tr key={i}>
             <Td column="name">
-              {hall.name}
+              <div>
+                {hall.name}
+                {editButton(this.props.editmode, hall, this.props.updateHandler, this.props.deleteHandler)}
+              </div>
             </Td>
             <Td column="desc">
               {hall.desc}
@@ -52,16 +63,14 @@ export default class HallTable extends React.Component {
             </Td> */}
             <Td column="players">
               <div>
-              {hall.players.map((player, j) => {
-              console.log("tesitng", player.name === hall.owner.name);
-              if (player.name === hall.owner.name) {
-              const name = player.name;
-              return (<b key={j}>{name}</b>);
-              }
-              else {
+                {hall.players.map((player, j) => {
+                if (player.name === hall.owner.name) {
+                const name = player.name;
+                return (<b key={j}>{name}</b>);
+                } else {
                 return (player.name);
-              }
-              ;})}
+                }
+                })}
               </div>
             </Td>
           </Tr>);

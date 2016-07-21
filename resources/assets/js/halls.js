@@ -16,27 +16,13 @@ class Halls extends React.Component {
       let newState = {...this.state};
       newState[key] = json;
       this.setState(newState);
-      console.log('parsed json', json);
-      console.log('state', this.state);
     }.bind(this));
-    // fetch(url, {credentials: 'same-origin'})
-    //   .then((response) => {
-    //     return response.json();
-    //   }).then((json) => {
-    //    let newState = {...this.state};
-    //     newState[key] = json;
-    //     this.setState(newState);
-    //     console.log('parsed json', json);
-    //     console.log('state', this.state);
-    //   }).catch((ex) => {
-    //     console.log('parsing failed', ex);
-    //   });
   }
   postNewHall(newHall) {
     $.ajax({
+      context: this,
       type: "POST",
       url: 'json/halls/create',
-      data: newHall,
       data: JSON.stringify({
             name: newHall.name,
             desc: newHall.desc,
@@ -44,26 +30,42 @@ class Halls extends React.Component {
             pass: newHall.pass,
             private: newHall.private,
           }),
-      success: console.log("ok"),
-      error: console.log("fail"),
-      dataType: 'json'
+      success: function(data) {
+        console.log("This is ", this);
+        this.setState({...this.state, ...newHall});
+      },
     });
-    // fetch('json/halls/create', {
-    //   method: 'POST',
-    //   credentials: 'same-origin',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     name: newHall.name,
-    //     desc: newHall.desc,
-    //     idcode: newHall.idcode,
-    //     pass: newHall.pass,
-    //     players: newHall.players,
-    //     private: newHall.private,
-    //   }),
-    // });
+  }
+  updateHall(newHall) {
+    $.ajax({
+      context: this,
+      type: "POST",
+      url: 'json/halls/update',
+      data: JSON.stringify({
+            id: newHall.id,
+            name: newHall.name,
+            desc: newHall.desc,
+            idcode: newHall.idcode,
+            pass: newHall.pass,
+            private: newHall.private,
+      }),
+      success: function(data) {
+        this.loadHallsFromServer('json/halls/owned', 'myHalls');
+      },
+    });
+  }
+  deleteHall(hall) {
+    $.ajax({
+      context: this,
+      type: "POST",
+      url: 'json/halls/delete',
+      data: JSON.stringify({
+        id: hall.id,
+      }),
+      success: function(data) {
+        this.loadHallsFromServer('json/halls/owned', 'myHalls');
+      },
+    });
   }
   componentDidMount() {
     this.loadHallsFromServer('json/halls/all', 'halls');
@@ -78,18 +80,18 @@ class Halls extends React.Component {
         <div className="row">
           <h2 className="col-xs-9">Gathering Hall</h2>
           <div className="col-xs-3">
-            <HallAdder addHandler={this.postNewHall}/>
+            <HallAdder addHandler={this.postNewHall.bind(this)}/>
           </div>
         </div>
         <hr/>
         <div className="row">
           <h3 className="col-xs-12">My Halls</h3>
           <div className="col-xs-12">
-            <HallTable data={this.state.myHalls} />
+            <HallTable updateHandler={this.updateHall.bind(this)} deleteHandler={this.deleteHall.bind(this)} data={this.state.myHalls} editmode={true} />
           </div>
           <h3 className="col-xs-12">Other Halls</h3>
           <div className="col-xs-12">
-            <HallTable data={this.state.halls} />
+            <HallTable data={this.state.halls} editmode={false} />
           </div>
         </div>
       </div>

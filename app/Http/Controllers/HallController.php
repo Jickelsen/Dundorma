@@ -102,4 +102,33 @@ class HallController extends Controller
         $owner->save();
 
     }
+
+    public function update(Request $request)
+    {
+
+        $request->id = $request->json('id');
+        $request->name = $request->json('name');
+        $request->desc = $request->json('desc');
+        $request->idcode = $request->json('idcode');
+        $request->pass = $request->json('pass');
+        $request->private = $request->json('private');
+
+        $request->user()->halls()->with('owner', 'players')->where('id', '=', $request->id)->update([
+        // Hall::with('owner', 'players')->where('id', '!=', $request->id)->update([
+            'name' => $request->json('name'),
+            'desc' => $request->json('desc'),
+            'idcode' => $request->json('idcode'),
+            'pass' => $request->json('pass'),
+            'private' => $request->json('private'),
+        ]);
+
+    }
+
+    public function delete(Request $request)
+    {
+
+        $request->id = $request->json('id');
+
+        $request->user()->halls()->with('owner', 'players')->where('id', '=', $request->id)->delete();
+    }
 }
