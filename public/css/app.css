@@ -7,6 +7,19 @@ h3 {
 ul {
   padding-left: 20px; }
 
+.modal-content {
+  background-color: #5a1919;
+  border: 0; }
+
+.modal-header {
+  border-bottom-color: #ec691a; }
+
+.modal-footer {
+  border-top-color: #ec691a; }
+
+.modal-body hr {
+  border-top-color: #ec691a; }
+
 .genome-pic {
   cursor: pointer; }
 

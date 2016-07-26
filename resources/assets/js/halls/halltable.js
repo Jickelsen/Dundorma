@@ -1,6 +1,9 @@
 import React from 'react';
 import { Table, Thead, Th, Tr, Td } from 'reactable';
 
+
+import { Link } from 'react-router';
+
 import HallAdder from './halladder';
 
 export default class HallTable extends React.Component {
@@ -22,10 +25,7 @@ export default class HallTable extends React.Component {
         <Table className="table" sortable={true} >
           <Thead>
             <Th column="name">
-              <strong>Name</strong>
-            </Th>
-            <Th column="desc">
-              <em>Description</em>
+              <em>Name & Description</em>
             </Th>
             <Th column="idcode">
               <em>Hall ID</em>
@@ -33,9 +33,6 @@ export default class HallTable extends React.Component {
             <Th column="pass">
               <em>Password</em>
             </Th>
-            {/* <Th column="owner">
-            <em>Owner</em>
-            </Th> */}
             <Th column="players">
               <em>Players</em>
             </Th>
@@ -45,12 +42,15 @@ export default class HallTable extends React.Component {
           <Tr key={i}>
             <Td column="name">
               <div>
-                {hall.name}
+              <p>
+
+              <Link to={`/${hall.idcode}`}>
+                <b>{hall.name}</b><br/>
+                <i>{hall.desc}</i>
+              </Link>
+            </p>
                 {editButton(this.props.editmode, hall, this.props.updateHandler, this.props.deleteHandler)}
               </div>
-            </Td>
-            <Td column="desc">
-              {hall.desc}
             </Td>
             <Td column="idcode">
               {hall.idcode}

@@ -39,6 +39,20 @@ ul {
 //   border: inherit;
 // }
 
+.modal-content {
+  background-color: $not-so-dark-background-color;
+  border: 0;
+}
+.modal-header {
+  border-bottom-color: $cool-orange;
+}
+.modal-footer {
+  border-top-color: $cool-orange;
+}
+
+.modal-body hr  {
+  border-top-color: $cool-orange;
+}
 
 .genome-pic{
   cursor: pointer;

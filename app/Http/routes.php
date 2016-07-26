@@ -44,3 +44,7 @@ Route::get('json/halls/owned', 'HallController@owned');
 Route::post('json/halls/create', 'HallController@register');
 Route::post('json/halls/update', 'HallController@update');
 Route::post('json/halls/delete', 'HallController@delete');
+
+Route::get('{path?}', function () {
+    return view('halls');
+})->where('path', '.*');

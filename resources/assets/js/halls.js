@@ -1,15 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route, Link, browserHistory } from 'react-router';
 
 import HallTable from './halls/halltable';
 import HallAdder from './halls/halladder';
+import HallViewer from './halls/hallviewer';
 //Will this work?
 import 'whatwg-fetch';
 
 class Halls extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {halls:[]};
+    this.state = {};
   }
   loadHallsFromServer(url, key) {
     this.serverRequest = $.get(url, function (json) {
@@ -26,12 +28,11 @@ class Halls extends React.Component {
       data: JSON.stringify({
             name: newHall.name,
             desc: newHall.desc,
-            idcode: newHall.idCode,
+            idcode: newHall.idcode,
             pass: newHall.pass,
             private: newHall.private,
           }),
       success: function(data) {
-        console.log("This is ", this);
         this.setState({...this.state, ...newHall});
       },
     });
@@ -45,7 +46,7 @@ class Halls extends React.Component {
             id: newHall.id,
             name: newHall.name,
             desc: newHall.desc,
-            idcode: newHall.idCode,
+            idcode: newHall.idcode,
             pass: newHall.pass,
             private: newHall.private,
       }),
@@ -67,16 +68,26 @@ class Halls extends React.Component {
       },
     });
   }
+  getHall(hallID) {
+    let index = this.state.halls.map((e) => { return e.idcode; }).indexOf(hallID);
+    return this.state.halls[index];
+  }
   componentDidMount() {
     this.loadHallsFromServer('json/halls/all', 'halls');
     //this.setState({...this.state, myHalls: this.state.filter((hall) => hall.owner.name ==)});
     this.loadHallsFromServer('json/halls/owned', 'myHalls');
+    let popup
     setInterval(() => this.loadHallsFromServer('json/halls/all', 'halls'), 10000);
     setInterval(() => this.loadHallsFromServer('json/halls/owned', 'myHalls'), 10000);
   }
   render() {
+    let popup;
+    if (this.props.children && this.state.halls) {
+      popup = React.cloneElement(this.props.children, { getHall: this.getHall.bind(this) });
+    }
     return (
       <div>
+        {popup}
         <div className="row">
           <h2 className="col-xs-9">Gathering Hall</h2>
           <div className="col-xs-3">
@@ -100,6 +111,10 @@ class Halls extends React.Component {
 }
 
 ReactDOM.render(
-  <Halls />,
+  <Router history={browserHistory}>
+    <Route path="/halls" component={Halls}>
+      <Route path="/:hallId" component={HallViewer}/>
+    </Route>
+  </Router>,
   document.getElementById('halls')
 );

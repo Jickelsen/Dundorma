@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'facebook_id', 'avatar', 'joined_hall', 'halls', 'joinedHall'
+        'name', 'email', 'nnid', 'password', 'facebook_id', 'avatar', 'joined_hall', 'halls', 'joinedHall'
     ];
 
     /**
@@ -21,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'facebook_id', 'email',
     ];
 
     public function halls()

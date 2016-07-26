@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use App\Scopes\AgeScope;
 
 class Hall extends Model
 {
@@ -29,5 +30,12 @@ class Hall extends Model
     {
 
         return $this->hasMany(User::class, 'joined_hall');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new AgeScope);
     }
 }

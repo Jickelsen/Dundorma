@@ -11,7 +11,7 @@
 
 
 {{-- libs for the app --}}
-<script type="text/javascript" src="js/halls.js"></script>
+<script type="text/javascript" src="/js/halls.js"></script>
 
 
 @endsection
