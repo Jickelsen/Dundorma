@@ -126,9 +126,30 @@ class HallController extends Controller
 
     public function delete(Request $request)
     {
-
         $request->id = $request->json('id');
 
         $request->user()->halls()->with('owner', 'players')->where('id', '=', $request->id)->delete();
+    }
+
+    public function join(Request $request)
+    {
+        $request->id = $request->json('id');
+        $hall = Hall::with('owner', 'players')->where('id', '=', $request->id)->first();
+        $player = $request->user();
+        $player->joinedHall()->associate($hall);
+        $player->save();
+    }
+
+    public function leave(Request $request)
+    {
+        $player = $request->user();
+        $player->joinedHall()->dissociate();
+        $player->save();
+    }
+
+    public function getlog(Request $request)
+    { 
+        DB::connection()->enableQueryLog();
+        return DB::getQueryLog(); 
     }
 }

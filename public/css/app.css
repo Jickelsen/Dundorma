@@ -1,3 +1,5 @@
+/* $dark-background-color: rgb(255, 250, 237); */
+/* $dark-background-color: rgb(100, 160, 145); */
 label {
   font-size: 110%; }
 
@@ -7,21 +9,34 @@ h3 {
 ul {
   padding-left: 20px; }
 
+hr {
+  border-top-color: #ec691a; }
+
+th {
+  border-bottom-color: #ec691a !important; }
+
+td {
+  border-top-color: #ec691a !important; }
+
 .modal-content {
   background-color: #5a1919;
   border: 0; }
 
 .modal-header {
+  color: #d2d2d2;
   border-bottom-color: #ec691a; }
 
 .modal-footer {
   border-top-color: #ec691a; }
 
+.modal-body {
+  color: #d2d2d2; }
+
+.form-group {
+  color: #d2d2d2; }
+
 .modal-body hr {
   border-top-color: #ec691a; }
-
-.genome-pic {
-  cursor: pointer; }
 
 .gene-shape-1 {
   fill-rule: evenodd;
@@ -158,8 +173,8 @@ html, body {
   padding: 0; }
 
 body {
-  color: #DDDDDD;
-  background-color: #64a091; }
+  color: #323232;
+  background-color: #faf0dc; }
 
 .panel {
   padding: 7px;

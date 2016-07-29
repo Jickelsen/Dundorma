@@ -7,6 +7,8 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Auth;
+use Laravel\Socialite\Contracts\Factory as Socialite;
 
 class AuthController extends Controller
 {
@@ -35,9 +37,10 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Socialite $socialite)
     {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->socialite = $socialite;
+        $this->middleware($this->guestMiddleware(), ['except' => ['current', 'logout']]);
     }
 
     /**
@@ -49,7 +52,8 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'name' => 'required|max:10',
+            'nnid' => 'max:16',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
@@ -65,8 +69,87 @@ class AuthController extends Controller
     {
         return User::create([
             'name' => $data['name'],
+            'nnid' => $data['nnid'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
     }
+
+
+
+    public function getSocialAuth($provider=null)
+    {
+        if(!config("services.$provider")) abort('404'); //just to handle providers that doesn't exist
+
+        return $this->socialite->with($provider)->redirect();
+    }
+
+
+    public function getSocialAuthCallback($provider=null)
+    {
+        // try {
+        //     $user = $this->socialite->driver('facebook')->user();
+        // } catch (Exception $e) {
+        //     return redirect('auth/facebook');
+        // }
+
+        // $authUser = $this->findOrCreateUser($user);
+
+        // Auth::login($authUser, true);
+
+        // return redirect()->route('home');
+
+
+        // if($user = $this->socialite->with($provider)->user()){
+        //     dd($user);
+        // }else{
+        //     return 'something went wrong';
+        // }
+
+        if($user = $this->socialite->with($provider)->user()){
+            $authUser = $this->findOrCreateUser($user);
+            Auth::login($authUser, true);
+            return redirect()->route('halls');
+        }else{
+            return 'something went wrong';
+        }
+    }
+    /**
+     * Return user if exists; create and return if doesn't
+     *
+     * @param $facebookUser
+     * @return User
+     */
+    private function findOrCreateUser($facebookUser)
+    {
+        $authUser = User::where('facebook_id', $facebookUser->id)->first();
+
+        if ($authUser){
+            return $authUser;
+        }
+
+        return User::create([
+            'name' => $facebookUser->name,
+            'email' => $facebookUser->email,
+            'facebook_id' => $facebookUser->id,
+            'avatar' => $facebookUser->avatar
+        ]);
+    }
+
+    public function current(){
+        $authUser = Auth::user();
+        if (!is_null($authUser)) {
+            return $authUser;
+        } else {
+            return response()->json(['id' => 0]);
+            // return json_encode(array('id' => 0, 'whatever' => 10), JSON_FORCE_OBJECT)->get();
+        }
+    }
+
+    // public function loggedin() {
+    //     return Auth::check();
+    // }
+
+    protected $redirectPath = '/';
+
 }

@@ -19,10 +19,9 @@ export default class HallTable extends React.Component {
         return <div></div>;
       }
     };
-
     return (
       <div>
-        <Table className="table" sortable={true} >
+        <Table className="table" sortable={false} >
           <Thead>
             <Th column="name">
               <em>Name & Description</em>
@@ -43,7 +42,6 @@ export default class HallTable extends React.Component {
             <Td column="name">
               <div>
               <p>
-
               <Link to={`/${hall.idcode}`}>
                 <b>{hall.name}</b><br/>
                 <i>{hall.desc}</i>
@@ -64,11 +62,10 @@ export default class HallTable extends React.Component {
             <Td column="players">
               <div>
                 {hall.players.map((player, j) => {
-                if (player.name === hall.owner.name) {
-                const name = player.name;
-                return (<b key={j}>{name}</b>);
+                if (hall.owner && player.name === hall.owner.name) {
+                  return <div key={j}><b>{player.name}</b><br/></div>;
                 } else {
-                return (player.name);
+                  return <div key={j}>{player.name}<br/></div>;
                 }
                 })}
               </div>

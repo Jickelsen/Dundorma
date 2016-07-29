@@ -115,15 +115,15 @@ export default class HallAdder extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <div className={"form-group " + (this.idValidate(this.state.idcode) && !this.state.viewmode ? "has-success" : "has-warning")}>
-              <label>Hall-ID</label>
+              <label>Hall-ID*</label>
               <input className="form-control" type="text" value={this.state.idcode} onChange = {(e) => this.stateChange("idcode", e.target.value)}/>
             </div>
             <div className={"form-group " + (this.state.name.length > 0 && !this.state.viewmode ? "has-success" : "has-warning")}>
-              <label>Name</label>
+              <label>Name*</label>
               <input className="form-control" type="text" value={this.state.name} onChange = {(e) => this.stateChange("name", e.target.value)}/>
             </div>
             <div className={"form-group " + (this.state.desc.length > 0 && !this.state.viewmode ? "has-success" : "has-warning")}>
-              <label>Description</label>
+              <label>Description*</label>
               <input className="form-control" type="text" value={this.state.desc} onChange = {(e) => this.stateChange("desc", e.target.value)}/>
             </div>
             <div className={"form-group " + (this.passValidate(this.state.pass) && !this.state.viewmode ? "has-success" : "has-warning")}>

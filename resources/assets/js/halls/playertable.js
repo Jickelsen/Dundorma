@@ -8,13 +8,13 @@ export default class PlayerTable extends React.Component {
       data = this.props.players;
     }
     return (
-      <Table className="table" sortable={true} >
+      <Table className="table" sortable={false} >
         <Thead>
           <Th column="name">
             <strong>Name</strong>
           </Th>
           <Th column="nnid">
-            <em>NNID</em>
+            <strong>NNID</strong>
           </Th>
         </Thead>
         {data.map((player, i) => {

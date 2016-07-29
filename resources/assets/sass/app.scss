@@ -2,10 +2,14 @@
 
 $light-background-color: rgb(120, 115, 140);
 
-$dark-background-color: rgb(100, 160, 145);
+$dark-background-color: rgb(250, 240, 220);
+/* $dark-background-color: rgb(255, 250, 237); */
+/* $dark-background-color: rgb(100, 160, 145); */
 
 $not-so-dark-background-color: rgb(90, 25, 25);
 
+$text-color-light: rgb(210,210,210);
+$text-color: rgb(50,50,50);
 
 $weird-orange: rgb(230, 111, 80);
 
@@ -35,6 +39,18 @@ ul {
   padding-left: 20px;
 }
 
+hr {
+  border-top-color: $cool-orange;
+}
+
+th {
+  border-bottom-color: $cool-orange !important;
+}
+
+td {
+  border-top-color: $cool-orange !important;
+}
+
 // div{
 //   border: inherit;
 // }
@@ -44,18 +60,21 @@ ul {
   border: 0;
 }
 .modal-header {
+  color: $text-color-light;
   border-bottom-color: $cool-orange;
 }
 .modal-footer {
   border-top-color: $cool-orange;
 }
-
-.modal-body hr  {
-  border-top-color: $cool-orange;
+.modal-body {
+  color: $text-color-light;
 }
 
-.genome-pic{
-  cursor: pointer;
+.form-group {
+  color: $text-color-light;
+}
+.modal-body hr  {
+  border-top-color: $cool-orange;
 }
 
 @for $i from 1 through 3 {
@@ -250,7 +269,7 @@ html, body {
 }
 
 body {
-  color: #DDDDDD;
+  color: $text-color;
   background-color: $dark-background-color;
 }
 .panel {
