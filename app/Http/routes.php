@@ -50,6 +50,12 @@ Route::post('json/halls/delete', 'HallController@delete');
 Route::post('json/halls/join', 'HallController@join');
 Route::get('json/halls/leave', 'HallController@leave');
 
+//profile
+
+Route::get('/profile', 'ProfileController@index');
+Route::get('json/profile', 'ProfileController@getProfile');
+Route::post('json/profile/update', 'ProfileController@update');
+
 Route::get('{path?}', function () {
     return view('halls');
 })->where('path', '.*');

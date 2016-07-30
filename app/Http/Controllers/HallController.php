@@ -32,19 +32,6 @@ class HallController extends Controller
      */
     public function owned(Request $request)
     {
-        // return response($request->user()->id, 202);
-        // return Response::json($request->user()->genomes;, 200, [], JSON_NUMERIC_CHECK);
-
-        // $halls = $request->user()->halls()->orderBy('id', 'desc');
-        // foreach ($halls as $hall) {
-        //     $players = $hall->players();
-
-
-        //     User::where('hall_id', '==', $hall->id)->orderBy('id', 'asc')->get();
-        //     $hall->
-        //         ->union($first)
-        //         echo $title;
-        // }
 
         return $request->user()->halls()->with('owner', 'players')->orderBy('id', 'desc')->get();
     }
@@ -56,23 +43,15 @@ class HallController extends Controller
 
     public function all(Request $request){
         return Hall::with('owner', 'players')->get();
-        // return DB::table('halls')->get();
-        // return response('hejhopp: [1,2,3]',202);
-        // var_dump($request->user()->genomes->first());
-        // var_dump(Genome::all());
     }
 
     public function players(Request $request)
     {
         return $request->hall()->players()->orderby('id', 'desc')->get();
-        // return User::where('joined_hall', '==', $request->id)->orderBy('id', 'asc')->get();
     }
 
     public function register(Request $request)
     {
-     //    $name = $request->json('name');
-     //    $genome = $request->json('genome');
-
         $request->name = $request->json('name');
         $request->desc = $request->json('desc');
         $request->idcode = $request->json('idcode');

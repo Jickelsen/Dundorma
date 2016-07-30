@@ -24,7 +24,7 @@ export default class PlayerTable extends React.Component {
               {player.name}
           </Td>
           <Td column="nnid">
-            {player.nnid}
+            <a href={"https://miiverse.nintendo.net/users/"+player.nnid} target="_blank">{player.nnid}</a>
           </Td>
         </Tr>);
         })}

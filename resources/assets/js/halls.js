@@ -114,25 +114,22 @@ class Halls extends React.Component {
     let usersHalls = <div></div>;
     let addButton = <div></div>;
     if (this.state.user && this.state.user.id != 0) {
+      addButton = <HallAdder addHandler={this.postNewHall.bind(this)}/>;
       usersHalls =
       <div>
-        <h3 className="col-xs-12">My Halls</h3>
+        <h3 className="col-xs-9">My Hubs</h3>
+        <div className="col-xs-3">
+        {addButton}
+      </div>
         <div className="col-xs-12">
           <HallTable updateHandler={this.updateHall.bind(this)} deleteHandler={this.deleteHall.bind(this)} data={this.state.myHalls} editmode={true} />
         </div>
-        <h3 className="col-xs-12">Other Halls</h3>
+        <h3 className="col-xs-12">All Hubs</h3>
       </div>;
-      addButton = <HallAdder addHandler={this.postNewHall.bind(this)}/>;
     }
     return (
       <div>
         {popup}
-        <div className="row">
-          <h2 className="col-xs-9">Gathering Hall</h2>
-          <div className="col-xs-3">
-            {addButton}
-          </div>
-        </div>
         <div className="row">
           {usersHalls}
           <div className="col-xs-12">

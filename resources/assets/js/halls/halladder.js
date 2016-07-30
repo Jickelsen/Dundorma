@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap-modal';
 
 const MAX_NAME_LENGTH = 64; 
 const MAX_DESC_LENGTH = 100; 
+const MAX_PASS_LENGTH = 4;
 export default class HallAdder extends React.Component {
 
   constructor(props) {
@@ -34,7 +35,7 @@ export default class HallAdder extends React.Component {
   passValidate(value) {
     const len = value.length;
     const isNumber = /^([0-9]*)*$/.test(value);
-    const isFilled = len === 4 || len === 0;
+    const isFilled = len === MAX_PASS_LENGTH || len === 0;
     return isNumber && isFilled;
   }
   idFormat(value) {
@@ -55,9 +56,9 @@ export default class HallAdder extends React.Component {
     const isNumber = /^([0-9]*)*$/.test(value);
     return isNumber && len <= 4;
   }
-  lenCheck(value, length) {
+  lenCheck(value, length, minLength) {
     const len = value.length;
-    return len > 0 && len <= length;
+    return len >= minLength && len <= length;
   }
   stateChange (key, value) {
     if (key === 'idcode') {
@@ -69,9 +70,9 @@ export default class HallAdder extends React.Component {
       }
     } else if (key === 'pass' && !this.passFormat(value)) {
       return;
-    } else if (key === 'name' && !this.lenCheck(value, MAX_NAME_LENGTH)) {
+    } else if (key === 'name' && !this.lenCheck(value, MAX_NAME_LENGTH, 0)) {
       return;
-    } else if (key === 'desc' && !this.lenCheck(value, MAX_DESC_LENGTH)) {
+    } else if (key === 'desc' && !this.lenCheck(value, MAX_DESC_LENGTH, 0)) {
       return;
     }
     this.state[key] = value;
@@ -90,16 +91,16 @@ export default class HallAdder extends React.Component {
     let openButton;
     let saveButton;
     let deleteButton;
-    let ok = this.idValidate(this.state.idcode) && this.passValidate(this.state.pass) && this.lenCheck(this.state.name, MAX_NAME_LENGTH) && this.lenCheck(this.state.desc, MAX_DESC_LENGTH);
+    let ok = this.idValidate(this.state.idcode) && this.passValidate(this.state.pass) && this.lenCheck(this.state.name, MAX_NAME_LENGTH, 1) && this.lenCheck(this.state.desc, MAX_DESC_LENGTH, 1);
     if (this.state.editmode) {
-      openButton = <a onClick={() => this.setState({...this.state, open: true }) }>Edit Hall</a>;
+      openButton = <a onClick={() => this.setState({...this.state, open: true }) }>Edit Hub</a>;
       saveButton = <button className='btn btn-primary' onClick={saveAndClose} disabled={!ok}> Save Changes </button>
-      deleteButton = <button className='btn btn-danger pull-left' onClick={deleteAndClose}> Delete Hall </button>;
+      deleteButton = <button className='btn btn-danger pull-left' onClick={deleteAndClose}> Delete Hub </button>;
     } else if (this.state.viewmode) {
 
     } else {
-      saveButton = <button className='btn btn-primary' onClick={saveAndClose} disabled={!ok}> Post Hall </button>
-        openButton = <button style={{marginTop: 20}}  type='button' className='btn btn-primary pull-right' onClick={() => this.setState({...this.state, open: true }) }>Post New Hall</button>;
+      saveButton = <button className='btn btn-primary' onClick={saveAndClose} disabled={!ok}> Post Hub </button>
+        openButton = <button type='button' className='btn btn-primary pull-right' onClick={() => this.setState({...this.state, open: true }) }>Post New Hub</button>;
     }
 
     return (
@@ -111,11 +112,11 @@ export default class HallAdder extends React.Component {
           aria-labelledby="ModalHeader"
         >
           <Modal.Header closeButton>
-            <Modal.Title id='ModalHeader'>Hall Details</Modal.Title>
+            <Modal.Title id='ModalHeader'>Hub Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div className={"form-group " + (this.idValidate(this.state.idcode) && !this.state.viewmode ? "has-success" : "has-warning")}>
-              <label>Hall-ID*</label>
+              <label>Hub-ID*</label>
               <input className="form-control" type="text" value={this.state.idcode} onChange = {(e) => this.stateChange("idcode", e.target.value)}/>
             </div>
             <div className={"form-group " + (this.state.name.length > 0 && !this.state.viewmode ? "has-success" : "has-warning")}>
@@ -135,11 +136,10 @@ export default class HallAdder extends React.Component {
                 <label><input type="checkbox" checked={this.state.private} onChange = {(e) => this.stateChange("private", e.target.checked)}/>Private</label>
               </div>
             </div>
-            {/* <button className="col-xs-2" type="button" onClick={() => {this.props.addHandler(this.state);}}>Post Hall</button> */}
           </Modal.Body>
           <Modal.Footer>
             {deleteButton}
-            <Modal.Dismiss className='btn btn-default'>Cancel</Modal.Dismiss>
+            <Modal.Dismiss className="btn btn-default">Cancel</Modal.Dismiss>
             {saveButton}
           </Modal.Footer>
         </Modal>

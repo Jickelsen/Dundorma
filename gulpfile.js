@@ -28,4 +28,5 @@ elixir(function(mix) {
   mix.copy('node_modules/react-bootstrap-modal/lib/styles/rbm-patch.css', 'public/css/rbm-patch.css');
   mix.sass('app.scss');
   mix.browserify('halls.js');
+  mix.browserify('profile.js');
 });

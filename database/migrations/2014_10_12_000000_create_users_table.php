@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('facebook_id');
             $table->string('avatar');
+            $table->integer('hr');
             $table->integer('joined_hall')->index();
             $table->rememberToken();
             $table->timestamps();
