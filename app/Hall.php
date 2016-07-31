@@ -18,6 +18,8 @@ class Hall extends Model
     ];
 
     protected $casts = [
+        'onquest' => 'boolean',
+        'full' => 'boolean',
         'private' => 'boolean'
     ];
 

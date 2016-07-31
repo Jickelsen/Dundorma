@@ -45,6 +45,8 @@ class Halls extends React.Component {
             desc: newHall.desc,
             idcode: newHall.idcode,
             pass: newHall.pass,
+            onquest: newHall.onquest,
+            full: newHall.full,
             private: newHall.private,
           }),
       success: function(data) {
@@ -62,6 +64,8 @@ class Halls extends React.Component {
             name: newHall.name,
             desc: newHall.desc,
             idcode: newHall.idcode,
+            onquest: newHall.onquest,
+            full: newHall.full,
             pass: newHall.pass,
             private: newHall.private,
       }),
@@ -117,14 +121,19 @@ class Halls extends React.Component {
       addButton = <HallAdder addHandler={this.postNewHall.bind(this)}/>;
       usersHalls =
       <div>
-        <h3 className="col-xs-9">My Hubs</h3>
+        <h3 className="col-xs-9">My Active Hubs</h3>
         <div className="col-xs-3">
         {addButton}
       </div>
         <div className="col-xs-12">
           <HallTable updateHandler={this.updateHall.bind(this)} deleteHandler={this.deleteHall.bind(this)} data={this.state.myHalls} editmode={true} />
         </div>
-        <h3 className="col-xs-12">All Hubs</h3>
+        <h3 className="col-xs-12">Active Hubs</h3>
+      </div>;
+    } else {
+      usersHalls =
+      <div>
+        <h3 className="col-xs-12">Active Hubs</h3>
       </div>;
     }
     return (

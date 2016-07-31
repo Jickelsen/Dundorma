@@ -27,6 +27,10 @@ $shape-color-list: $shape-color-1 $shape-color-2 $shape-color-3;
 $button-color-1: desaturate(darken($cool-orange, 5%), 15%);//rgb(149,133,75);
 $button-color-2: desaturate(darken($cool-green, 10%), 0%);;//rgb(93,127,94);
 
+#roomCheckboxes {
+  margin-top: 4px;
+}
+
 label{
 	font-size: 110%;
 }
@@ -54,6 +58,10 @@ td {
 // div{
 //   border: inherit;
 // }
+
+.panel-body h3  {
+  color: $text-color-light;
+}
 
 .modal-content {
   background-color: $not-so-dark-background-color;

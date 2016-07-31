@@ -1,14 +1,14 @@
 import React from 'react';
 import Modal from 'react-bootstrap-modal';
 
-const MAX_NAME_LENGTH = 64; 
-const MAX_DESC_LENGTH = 100; 
+const MAX_NAME_LENGTH = 64;
+const MAX_DESC_LENGTH = 100;
 const MAX_PASS_LENGTH = 4;
 export default class HallAdder extends React.Component {
 
   constructor(props) {
     super(props);
-    let state = {name:'', desc:'', idcode:'', pass:'', private: false, open:false, editmode:false, viewmode:false};
+    let state = {name:'', desc:'', idcode:'', pass:'', onquest: false, full:false, private: false, open:false, editmode:false, viewmode:false};
     if (this.props.editmode && this.props.hall) {
       this.state = {...state, ...{...this.props.hall, editmode: true}};
     } else {
@@ -76,33 +76,61 @@ export default class HallAdder extends React.Component {
       return;
     }
     this.state[key] = value;
+    if (this.state.editmode && key === 'full') {
+      this.props.addHandler(this.state);
+    }
+    if (this.state.editmode && key === 'onquest') {
+      this.props.addHandler(this.state);
+    }
     this.forceUpdate();
   }
   render() {
     let closeModal = () => this.setState({...this.state, open: false });
     let saveAndClose = () => {
       this.props.addHandler(this.state);
-      this.setState({...this.state, ...{name:'', desc:'', idcode:'', pass:'', private: false, open:false}});
+      this.setState({...this.state, ...{name:'', desc:'', idcode:'', pass:'', onquest: false, full: false, private: false, open:false}});
+    };
+    let save = () => {
+      this.props.addHandler(this.state);
     };
     let deleteAndClose = () => {
       this.props.deleteHandler(this.state);
       this.setState({...this.state, open: false });
     };
     let openButton;
-    let saveButton;
-    let deleteButton;
+    let footer;
     let ok = this.idValidate(this.state.idcode) && this.passValidate(this.state.pass) && this.lenCheck(this.state.name, MAX_NAME_LENGTH, 1) && this.lenCheck(this.state.desc, MAX_DESC_LENGTH, 1);
     if (this.state.editmode) {
-      openButton = <a onClick={() => this.setState({...this.state, open: true }) }>Edit Hub</a>;
-      saveButton = <button className='btn btn-primary' onClick={saveAndClose} disabled={!ok}> Save Changes </button>
-      deleteButton = <button className='btn btn-danger pull-left' onClick={deleteAndClose}> Delete Hub </button>;
+      
+      openButton = <button className="btn-sm btn-primary" onClick={() => this.setState({...this.state, open: true }) }>Edit</button>;
+      footer =
+      <div className = "row">
+        <div className = "col-xs-2">
+          <button className="btn btn-danger pull-left" onClick={deleteAndClose}> Delete Hub </button>;
+        </div>
+
+        <div className="form-group col-xs-5" id="roomCheckboxes">
+          <div className="row">
+          <label className="col-xs-6"><input type="checkbox" checked={this.state.full} onChange = {(e) => this.stateChange("full", e.target.checked)}/> Full</label>
+          <label className="col-xs-6"><input type="checkbox" checked={this.state.onquest} onChange = {(e) => this.stateChange("onquest", e.target.checked)}/> On Quest</label>
+          </div>
+        </div>
+        <div className="col-xs-5">
+          <Modal.Dismiss className="btn btn-default">Cancel</Modal.Dismiss>
+          <button className='btn btn-primary' onClick={save} disabled={!ok}> Save Changes </button>
+        </div>
+      </div>;
     } else if (this.state.viewmode) {
 
     } else {
-      saveButton = <button className='btn btn-primary' onClick={saveAndClose} disabled={!ok}> Post Hub </button>
-        openButton = <button type='button' className='btn btn-primary pull-right' onClick={() => this.setState({...this.state, open: true }) }>Post New Hub</button>;
+      footer =
+      <div className = "row">
+        <div className = "col-xs-5 col-md-offset-7"><button className='btn btn-primary' onClick={save} disabled={!ok}> Post Hub </button>
+        </div>
+      </div>;
+      openButton = 
+          <button type='button' className='btn btn-primary pull-right' onClick={() => this.setState({...this.state, open: true }) }>Post New Hub</button>;
     }
-
     return (
       <div>
         {openButton}
@@ -115,35 +143,33 @@ export default class HallAdder extends React.Component {
             <Modal.Title id='ModalHeader'>Hub Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div className={"form-group " + (this.idValidate(this.state.idcode) && !this.state.viewmode ? "has-success" : "has-warning")}>
+            <div className={"form-group has-feedback " + (this.idValidate(this.state.idcode) && !this.state.viewmode ? "has-success" : "has-warning")}>
+              
               <label>Hub-ID*</label>
               <input className="form-control" type="text" value={this.state.idcode} onChange = {(e) => this.stateChange("idcode", e.target.value)}/>
+              <span className={"glyphicon " + (this.idValidate(this.state.idcode) && !this.state.viewmode ? "" : "glyphicon-warning-sign") + " form-control-feedback"} aria-hidden="true"></span>
             </div>
-            <div className={"form-group " + (this.state.name.length > 0 && !this.state.viewmode ? "has-success" : "has-warning")}>
+            <div className={"form-group has-feedback " + (this.state.name.length > 0 && !this.state.viewmode ? "has-success" : "has-warning")}>
               <label>Name*</label>
               <input className="form-control" type="text" value={this.state.name} onChange = {(e) => this.stateChange("name", e.target.value)}/>
+              <span className={"glyphicon " + (this.state.name.length > 0 && !this.state.viewmode ? "" : "glyphicon-warning-sign") + " form-control-feedback"} aria-hidden="true"></span>
             </div>
-            <div className={"form-group " + (this.state.desc.length > 0 && !this.state.viewmode ? "has-success" : "has-warning")}>
+            <div className={"form-group has-feedback " + (this.state.desc.length > 0 && !this.state.viewmode ? "has-success" : "has-warning")}>
               <label>Description*</label>
               <input className="form-control" type="text" value={this.state.desc} onChange = {(e) => this.stateChange("desc", e.target.value)}/>
+              <span className={"glyphicon " + (this.state.desc.length > 0 && !this.state.viewmode ? "" : "glyphicon-warning-sign") + " form-control-feedback"} aria-hidden="true"></span>
             </div>
-            <div className={"form-group " + (this.passValidate(this.state.pass) && !this.state.viewmode ? "has-success" : "has-warning")}>
-              <label>Password</label>
+            <div className={"form-group has-feedback " + (this.passValidate(this.state.pass) && !this.state.viewmode ? "has-success" : "has-warning")}>
+              <label>Passcode</label>
               <input className="form-control" type="text" value={this.state.pass} onChange = {(e) => this.stateChange("pass", e.target.value)}/>
-            </div>
-            <div className="form-group">
-              <div className="checkbox">
-                <label><input type="checkbox" checked={this.state.private} onChange = {(e) => this.stateChange("private", e.target.checked)}/>Private</label>
-              </div>
+              <span className={"glyphicon " + (this.passValidate(this.state.pass) && !this.state.viewmode ? "" : "glyphicon-warning-sign") + " form-control-feedback"} aria-hidden="true"></span>
             </div>
           </Modal.Body>
           <Modal.Footer>
-            {deleteButton}
-            <Modal.Dismiss className="btn btn-default">Cancel</Modal.Dismiss>
-            {saveButton}
+            {footer}
           </Modal.Footer>
         </Modal>
       </div>
     );
-}
+  }
 }

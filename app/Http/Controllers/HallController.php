@@ -56,6 +56,8 @@ class HallController extends Controller
         $request->desc = $request->json('desc');
         $request->idcode = $request->json('idcode');
         $request->pass = $request->json('pass');
+        $request->onquest = $request->json('onquest');
+        $request->full = $request->json('full');
         $request->private = $request->json('private');
 
         $owner = $request->user();
@@ -70,6 +72,8 @@ class HallController extends Controller
             'name' => $request->json('name'),
             'desc' => $request->json('desc'),
             'idcode' => $request->json('idcode'),
+            'onquest' => $request->json('onquest'),
+            'full' => $request->json('full'),
             'pass' => $request->json('pass'),
             'private' => $request->json('private'),
         ]);
@@ -89,6 +93,8 @@ class HallController extends Controller
         $request->name = $request->json('name');
         $request->desc = $request->json('desc');
         $request->idcode = $request->json('idcode');
+        $request->onquest = $request->json('onquest');
+        $request->full = $request->json('full');
         $request->pass = $request->json('pass');
         $request->private = $request->json('private');
 
@@ -97,6 +103,8 @@ class HallController extends Controller
             'name' => $request->json('name'),
             'desc' => $request->json('desc'),
             'idcode' => $request->json('idcode'),
+            'onquest' => $request->json('onquest'),
+            'full' => $request->json('full'),
             'pass' => $request->json('pass'),
             'private' => $request->json('private'),
         ]);

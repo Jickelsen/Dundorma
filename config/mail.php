@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => "village_moofah@hunterhubs.com", 'name' => 'Village Moofah'],
 
     /*
     |--------------------------------------------------------------------------

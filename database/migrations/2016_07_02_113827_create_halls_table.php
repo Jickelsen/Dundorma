@@ -21,6 +21,7 @@ class CreateHallsTable extends Migration
             $table->string('pass');
             $table->integer('minhr')->default(0);
             $table->integer('maxhr')->default(0);
+            $table->integer('onquest')->default(0);
             $table->integer('full')->default(0);
             $table->integer('private')->default(0);
             $table->timestamp('scheduled');

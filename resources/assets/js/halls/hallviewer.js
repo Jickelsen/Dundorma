@@ -19,9 +19,11 @@ class HallViewer extends React.Component {
     }
     let joinLeaveButton;
     if (userInHall) {
-      joinLeaveButton = <button type='button' className='btn btn-warning' onClick={() => this.props.leaveHandler(this.props.hall)}>Leave</button>;
+      joinLeaveButton = <button type="button" className="btn btn-warning" onClick={() => this.props.leaveHandler(this.props.hall)}>Leave</button>;
+    } else if (this.props.user && !this.props.hall.full) {
+      joinLeaveButton = <button type="button" className="btn btn-primary" onClick={() => this.props.joinHandler(this.props.hall) }>Join</button>;
     } else if (this.props.user) {
-      joinLeaveButton = <button type='button' className='btn btn-primary' onClick={() => this.props.joinHandler(this.props.hall) }>Join</button>;
+      joinLeaveButton = <button type="button" className="btn btn-danger" disabled={true}>Full</button>;
     } else {
       joinLeaveButton = '';
     }
@@ -55,7 +57,8 @@ class HallViewer extends React.Component {
                   {this.props.hall.pass}
                 </p>
                 <p>
-                  <label><input type="checkbox" checked={this.props.hall.private} disabled /> Private</label>
+                  <label><input type="checkbox" checked={this.props.hall.onquest} disabled /> On Quest</label>
+                  <label><input type="checkbox" checked={this.props.hall.full} disabled /> Full</label>
                 </p>
               </div>
               <div className="col-sm-7 col-sm-offset-1">
@@ -66,7 +69,7 @@ class HallViewer extends React.Component {
               <label>Direct Link</label><input className="form-control" type="text" defaultValue={"http://0.0.0.0/"+this.props.hall.idcode} />
           </Modal.Body>
           <Modal.Footer>
-            <Modal.Dismiss className='btn btn-default'>Cancel</Modal.Dismiss>
+            <Modal.Dismiss className="btn btn-default">Cancel</Modal.Dismiss>
             {joinLeaveButton}
           </Modal.Footer>
         </Modal>

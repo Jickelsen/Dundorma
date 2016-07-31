@@ -1,5 +1,8 @@
 /* $dark-background-color: rgb(255, 250, 237); */
 /* $dark-background-color: rgb(100, 160, 145); */
+#roomCheckboxes {
+  margin-top: 4px; }
+
 label {
   font-size: 110%; }
 
@@ -17,6 +20,9 @@ th {
 
 td {
   border-top-color: #ec691a !important; }
+
+.panel-body h3 {
+  color: #d2d2d2; }
 
 .modal-content {
   background-color: #5a1919;

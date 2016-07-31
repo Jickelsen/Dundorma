@@ -40,14 +40,16 @@ export default class HallTable extends React.Component {
           return (
           <Tr key={i}>
             <Td column="name">
-              <div>
-              <p>
-              <Link to={`/${hall.idcode}`}>
-                <b>{hall.name}</b><br/>
-                <i>{hall.desc}</i>
-              </Link>
-            </p>
-                {editButton(this.props.editmode, hall, this.props.updateHandler, this.props.deleteHandler)}
+              <div className = "row">
+                <p className = "col-xs-10">
+                  <Link to={`/${hall.idcode}`}>
+                    <b>{hall.name}</b><br/>
+                    <i>{hall.desc}</i>
+                  </Link>
+                </p>
+                <div className = "col-xs-2">
+                  {editButton(this.props.editmode, hall, this.props.updateHandler, this.props.deleteHandler)}
+                </div>
               </div>
             </Td>
             <Td column="idcode">
