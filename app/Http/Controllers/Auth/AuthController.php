@@ -53,6 +53,7 @@ class AuthController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|max:10',
+            'friendcode' => 'max:14',
             'nnid' => 'max:16',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
@@ -69,6 +70,7 @@ class AuthController extends Controller
     {
         return User::create([
             'name' => $data['name'],
+            'friendcode' => $data['friendcode'],
             'nnid' => $data['nnid'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),

@@ -1,5 +1,23 @@
 /* $dark-background-color: rgb(255, 250, 237); */
 /* $dark-background-color: rgb(100, 160, 145); */
+.navbar-brand {
+  padding-top: 7px; }
+
+.navbar-brand img, .navbar-brand div {
+  display: inline-block;
+  vertical-align: middle; }
+
+.title-icon {
+  width: 35px;
+  height: auto; }
+
+.btn-sm.btn-primary {
+  margin-top: 7px; }
+
+#hall-table {
+  cursor: pointer;
+  cursor: hand; }
+
 #roomCheckboxes {
   margin-top: 4px; }
 
@@ -18,8 +36,50 @@ hr {
 th {
   border-bottom-color: #ec691a !important; }
 
+.inner {
+  z-index: 2; }
+
+.row-full {
+  background-color: rgba(236, 105, 26, 0.2); }
+
+.wrap-full:after {
+  content: "\f0c0";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  position: absolute;
+  font-size: 44px;
+  color: rgba(90, 25, 25, 0.15);
+  top: 3%;
+  left: 3%;
+  z-index: 1; }
+
+.row-onquest {
+  background-color: rgba(200, 200, 210, 0.2); }
+
+.wrap-onquest:after {
+  content: "\f08b";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  position: absolute;
+  font-size: 61px;
+  color: rgba(70, 132, 192, 0.25);
+  top: -15%;
+  left: 3%;
+  z-index: 1; }
+
 td {
-  border-top-color: #ec691a !important; }
+  position: relative;
+  /* Needed for pseudo elem */ }
+
+#full-legend {
+  color: rgba(90, 25, 25, 0.8); }
+
+#onquest-legend {
+  color: rgba(70, 132, 192, 0.8); }
 
 .panel-body h3 {
   color: #d2d2d2; }
@@ -43,21 +103,6 @@ td {
 
 .modal-body hr {
   border-top-color: #ec691a; }
-
-.gene-shape-1 {
-  fill-rule: evenodd;
-  fill-opacity: 1;
-  fill: #ec691a; }
-
-.gene-shape-2 {
-  fill-rule: evenodd;
-  fill-opacity: 1;
-  fill: #505064; }
-
-.gene-shape-3 {
-  fill-rule: evenodd;
-  fill-opacity: 1;
-  fill: #de002a; }
 
 .vertically-stretched-container {
   display: -ms-flexbox;
@@ -132,7 +177,8 @@ td {
   color: #ec691a; }
 
 .panel-default > .panel-heading {
-  background-color: #c96224; }
+  background-color: #c96224;
+  border-color: #c96224; }
 
 .btn-primary {
   background-color: #c96224; }

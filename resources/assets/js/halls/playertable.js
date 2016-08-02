@@ -11,18 +11,30 @@ export default class PlayerTable extends React.Component {
       <Table className="table" sortable={false} >
         <Thead>
           <Th column="name">
-            <strong>Name</strong>
+            <strong>Name & Friend Code</strong>
           </Th>
           <Th column="nnid">
             <strong>NNID</strong>
           </Th>
         </Thead>
         {data.map((player, i) => {
+           let playerName;
+           if (player.name === this.props.owner.name) {
+             playerName =
+               <Td column="name">
+                 <div>{player.name + ' (owner)'}<br/>
+                 {player.friendcode}
+                 </div>
+               </Td>;
+         } else {
+             playerName =
+               <Td column="name">
+                 {player.name}
+               </Td>;
+         }
         return (
         <Tr key={i}>
-          <Td column="name">
-              {player.name}
-          </Td>
+            {playerName}
           <Td column="nnid">
             <a href={"https://miiverse.nintendo.net/users/"+player.nnid} target="_blank">{player.nnid}</a>
           </Td>

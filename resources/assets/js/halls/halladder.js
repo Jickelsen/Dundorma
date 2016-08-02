@@ -105,7 +105,7 @@ export default class HallAdder extends React.Component {
       openButton = <button className="btn-sm btn-primary" onClick={() => this.setState({...this.state, open: true }) }>Edit</button>;
       footer =
       <div className = "row">
-        <div className = "col-xs-2">
+        <div className = "col-xs-3">
           <button className="btn btn-danger pull-left" onClick={deleteAndClose}> Delete Hub </button>;
         </div>
 
@@ -115,9 +115,10 @@ export default class HallAdder extends React.Component {
           <label className="col-xs-6"><input type="checkbox" checked={this.state.onquest} onChange = {(e) => this.stateChange("onquest", e.target.checked)}/> On Quest</label>
           </div>
         </div>
-        <div className="col-xs-5">
+        <div className="col-xs-4">
           <Modal.Dismiss className="btn btn-default">Cancel</Modal.Dismiss>
-          <button className='btn btn-primary' onClick={save} disabled={!ok}> Save Changes </button>
+
+          <button className='btn btn-primary' onClick={save} disabled={!ok}> Save </button>
         </div>
       </div>;
     } else if (this.state.viewmode) {
@@ -125,7 +126,7 @@ export default class HallAdder extends React.Component {
     } else {
       footer =
       <div className = "row">
-        <div className = "col-xs-5 col-md-offset-7"><button className='btn btn-primary' onClick={save} disabled={!ok}> Post Hub </button>
+        <div className = "col-xs-5 col-xs-offset-7"><button className='btn btn-primary' onClick={saveAndClose} disabled={!ok}> Post Hub </button>
         </div>
       </div>;
       openButton = 

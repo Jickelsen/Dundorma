@@ -1,12 +1,11 @@
 import React from 'react';
 import { Table, Thead, Th, Tr, Td } from 'reactable';
 
-
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 
 import HallAdder from './halladder';
 
-export default class HallTable extends React.Component {
+class HallTable extends React.Component {
   render() {
     let data = [];
     if (this.props.data) {
@@ -30,28 +29,37 @@ export default class HallTable extends React.Component {
               <em>Hall ID</em>
             </Th>
             <Th column="pass">
-              <em>Password</em>
+              <em>Passcode</em>
             </Th>
             <Th column="players">
               <em>Players</em>
             </Th>
           </Thead>
           {data.map((hall, i) => {
+             let cellClass;
+             let rowClass;
+             if (hall && hall.full) {
+               rowClass = 'row-full';
+               cellClass = 'wrap-full';
+             } else if (hall && hall.onquest) {
+               rowClass = 'row-onquest';
+               cellClass = 'wrap-onquest';
+             }
           return (
-          <Tr key={i}>
-            <Td column="name">
-              <div className = "row">
-                <p className = "col-xs-10">
-                  <Link to={`/${hall.idcode}`}>
-                    <b>{hall.name}</b><br/>
-                    <i>{hall.desc}</i>
-                  </Link>
-                </p>
-                <div className = "col-xs-2">
-                  {editButton(this.props.editmode, hall, this.props.updateHandler, this.props.deleteHandler)}
-                </div>
-              </div>
-            </Td>
+              <Tr id="hall-table" onClick = {() => this.props.router.push('/' + hall.idcode) } key={i} className = {rowClass}>
+                <Td column="name">
+                  <div className = {cellClass}>
+                    <div className = "row inner">
+                      <p className = "col-xs-9">
+                          <b>{hall.name}</b><br/>
+                          <i>{hall.desc}</i>
+                      </p>
+                      <div onClick={(e) => e.stopPropagation()} className = "col-xs-3">
+                        {editButton(this.props.editmode, hall, this.props.updateHandler, this.props.deleteHandler)}
+                      </div>
+                    </div>
+                  </div>
+                </Td>
             <Td column="idcode">
               {hall.idcode}
             </Td>
@@ -78,4 +86,6 @@ export default class HallTable extends React.Component {
       </div>
     );
   }
-};
+}
+
+export default withRouter(HallTable);

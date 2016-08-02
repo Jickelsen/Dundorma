@@ -3,13 +3,14 @@ import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
 
 const MAX_NAME_LENGTH = 10;
+const MAX_FRIENDCODE_LENGTH = 14;
 const MAX_NNID_LENGTH = 16;
 const MIN_PASS_LENGTH = 6;
 
 class ProfileEditor extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {name:'', email:'', emailConf:'', nnid:'', pass:'', passConf:'', currentMail:''};
+    this.state = {name:'', email:'', emailConf:'', friendcode:'', nnid:'', pass:'', passConf:'', currentMail:''};
     this.loadProfile();
   }
   loadProfile(url) {
@@ -41,7 +42,9 @@ class ProfileEditor extends React.Component {
       return;
     } else if (key === 'nnid' && !this.lenCheck(value, MAX_NNID_LENGTH, 0)) {
       return;
-    }
+    } else if (key === 'friendcode' && !this.lenCheck(value, MAX_FRIENDCODE_LENGTH, 0)) {
+    return;
+  }
     this.state[key] = value;
     this.forceUpdate();
   }
@@ -54,6 +57,7 @@ class ProfileEditor extends React.Component {
       data: $.param({
             name: this.state.name,
             email: this.state.emailConf,
+            friendcode: this.state.friendcode,
             nnid: this.state.nnid,
             pass: this.state.pass,
       }),
@@ -63,7 +67,7 @@ class ProfileEditor extends React.Component {
     });
   }
   render() {
-    let ok = this.emailValidate(this.state.email, this.state.emailConf) && this.passValidate(this.state.pass,this.state.passConf) && this.lenCheck(this.state.name, MAX_NAME_LENGTH, 1) && this.lenCheck(this.state.nnid, MAX_NNID_LENGTH, 0);
+    let ok = this.emailValidate(this.state.email, this.state.emailConf) && this.passValidate(this.state.pass,this.state.passConf) && this.lenCheck(this.state.name, MAX_NAME_LENGTH, 1) && this.lenCheck(this.state.friendcode, MAX_FRIENDCODE_LENGTH, 0) && this.lenCheck(this.state.nnid, MAX_NNID_LENGTH, 0);
     return (
       <div className="panel panel-default">
         <div className="panel-body no-margin">
@@ -79,6 +83,10 @@ class ProfileEditor extends React.Component {
             <label>Confirm Email</label>
             <input className="form-control" type="text" value={this.state.emailConf} onChange = {(e) => this.stateChange("emailConf", e.target.value)}/>
             <span className={"glyphicon " + (this.emailValidate(this.state.email, this.state.emailConf) ? "" : "glyphicon-warning-sign") + " form-control-feedback"} aria-hidden="true"></span>
+          </div>
+          <div className="form-group">
+            <label>3DS Friend Code</label>
+            <input className="form-control" type="text" value={this.state.friendcode} onChange = {(e) => this.stateChange("friendcode", e.target.value)}/>
           </div>
           <div className="form-group">
             <label>Nintendo Network ID</label>

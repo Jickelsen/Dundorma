@@ -10,8 +10,6 @@ class Halls extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.loadHallsFromServer('json/halls/all', 'halls');
-    setInterval(() => this.loadHallsFromServer('json/halls/all', 'halls'), 10000);
     this.getUser();
   }
   getUser() {
@@ -24,6 +22,11 @@ class Halls extends React.Component {
           this.setState({...this.state, user: data});
           this.loadHallsFromServer('json/halls/owned', 'myHalls');
           setInterval(() => this.loadHallsFromServer('json/halls/owned', 'myHalls'), 10000);
+          this.loadHallsFromServer('json/halls/others', 'halls');
+          setInterval(() => this.loadHallsFromServer('json/halls/others', 'halls'), 10000);
+        } else {
+          this.loadHallsFromServer('json/halls/all', 'halls');
+          setInterval(() => this.loadHallsFromServer('json/halls/all', 'halls'), 10000);
         }
       },
     });
@@ -96,7 +99,11 @@ class Halls extends React.Component {
         id: hall.id,
       }),
       success: function(data) {
-        this.loadHallsFromServer('json/halls/all', 'halls');
+        if (this.state.user.id !== 0) {
+          this.loadHallsFromServer('json/halls/all', 'halls');
+        } else {
+          this.loadHallsFromServer('json/halls/others', 'halls');
+        }
       },
     });
   }
@@ -106,14 +113,25 @@ class Halls extends React.Component {
       type: "GET",
       url: 'json/halls/leave',
       success: function(data) {
-        this.loadHallsFromServer('json/halls/all', 'halls');
+        if (this.state.user.id !== 0) {
+          this.loadHallsFromServer('json/halls/all', 'halls');
+        } else {
+          this.loadHallsFromServer('json/halls/others', 'halls');
+        }
       },
     });
   }
   render() {
     let popup;
     if (this.props.children && this.state.halls) {
-      popup = React.cloneElement(this.props.children, { hall: this.state.halls.find(hall => hall.idcode === this.props.params.hallId), joinHandler: this.joinHall.bind(this), leaveHandler: this.leaveHall.bind(this), user: this.state.user });
+      let hallInfo;
+      let attempt = this.state.halls.find(hall => hall.idcode === this.props.params.hallId);
+      if (attempt) {
+        hallInfo = attempt;
+      } else {
+        hallInfo = this.state.myHalls.find(hall => hall.idcode === this.props.params.hallId);
+      }
+      popup = React.cloneElement(this.props.children, { hall: hallInfo, joinHandler: this.joinHall.bind(this), leaveHandler: this.leaveHall.bind(this), user: this.state.user });
     }
     let usersHalls = <div></div>;
     let addButton = <div></div>;
@@ -121,19 +139,19 @@ class Halls extends React.Component {
       addButton = <HallAdder addHandler={this.postNewHall.bind(this)}/>;
       usersHalls =
       <div>
-        <h3 className="col-xs-9">My Active Hubs</h3>
+        <h3 className="col-xs-9">My Hubs</h3>
         <div className="col-xs-3">
         {addButton}
       </div>
         <div className="col-xs-12">
           <HallTable updateHandler={this.updateHall.bind(this)} deleteHandler={this.deleteHall.bind(this)} data={this.state.myHalls} editmode={true} />
         </div>
-        <h3 className="col-xs-12">Active Hubs</h3>
+        <h3 className="col-xs-12">Other Hubs</h3>
       </div>;
     } else {
       usersHalls =
       <div>
-        <h3 className="col-xs-12">Active Hubs</h3>
+        <h3 className="col-xs-12">Hubs</h3>
       </div>;
     }
     return (
@@ -144,6 +162,11 @@ class Halls extends React.Component {
           <div className="col-xs-12">
             <HallTable data={this.state.halls} editmode={false} />
           </div>
+        </div>
+        <div><center><p align="center">Hubs are automatically deleted after two hours of inactivity</p></center></div>
+        <div className="row">
+          <div id="onquest-legend" className="col-xs-2 col-xs-offset-4"><center><p><i className="fa fa-sign-out" style={{align: "middle"}}></i> On Quest</p></center></div>
+          <div id="full-legend" className="col-xs-2"><center><p><i className="fa fa-users" style={{align: "middle"}}></i> Full</p></center></div>
         </div>
       </div>
     );

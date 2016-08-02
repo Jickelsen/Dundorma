@@ -20,12 +20,18 @@ class HallViewer extends React.Component {
     let joinLeaveButton;
     if (userInHall) {
       joinLeaveButton = <button type="button" className="btn btn-warning" onClick={() => this.props.leaveHandler(this.props.hall)}>Leave</button>;
-    } else if (this.props.user && !this.props.hall.full) {
+    } else if (this.props.user && this.props.hall && !this.props.hall.full) {
       joinLeaveButton = <button type="button" className="btn btn-primary" onClick={() => this.props.joinHandler(this.props.hall) }>Join</button>;
     } else if (this.props.user) {
       joinLeaveButton = <button type="button" className="btn btn-danger" disabled={true}>Full</button>;
     } else {
       joinLeaveButton = '';
+    }
+    let passcode;
+    if (this.props.hall.pass) {
+      passcode = this.props.hall.pass;
+    } else {
+      passcode = 'None';
     }
     return (
       <div>
@@ -41,7 +47,7 @@ class HallViewer extends React.Component {
             <div className="row">
               <div className="col-sm-4">
                 <p>
-                  <label>Hall-ID</label><br/>
+                  <label>Hub ID</label><br/>
                   {this.props.hall.idcode}
                 </p>
                 <p>
@@ -53,20 +59,20 @@ class HallViewer extends React.Component {
                   {this.props.hall.desc}
                 </p>
                 <p>
-                  <label>Password<br/></label><br/>
-                  {this.props.hall.pass}
+                  <label>Passcode<br/></label><br/>
+                  {passcode}
                 </p>
-                <p>
-                  <label><input type="checkbox" checked={this.props.hall.onquest} disabled /> On Quest</label>
-                  <label><input type="checkbox" checked={this.props.hall.full} disabled /> Full</label>
+                <p className="row">
+                  <label className="col-xs-7"><input type="checkbox" checked={this.props.hall.onquest} disabled /> On Quest</label>
+                  <label className="col-xs-5"><input type="checkbox" checked={this.props.hall.full} disabled /> Full</label>
                 </p>
               </div>
               <div className="col-sm-7 col-sm-offset-1">
                 <p><label>Players</label></p>
-                <PlayerTable players={this.props.hall.players} />
+        <PlayerTable players={this.props.hall.players} owner={this.props.hall.owner} />
               </div>
             </div>
-              <label>Direct Link</label><input className="form-control" type="text" defaultValue={"http://0.0.0.0/"+this.props.hall.idcode} />
+              <label>Direct Link</label><input className="form-control" type="text" defaultValue={"http://hunterhubs.com/"+this.props.hall.idcode} />
           </Modal.Body>
           <Modal.Footer>
             <Modal.Dismiss className="btn btn-default">Cancel</Modal.Dismiss>

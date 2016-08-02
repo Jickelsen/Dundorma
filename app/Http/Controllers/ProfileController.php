@@ -41,16 +41,18 @@ class ProfileController extends Controller
             $id = $request->user()->id;
             // return var_dump($request);
             // $request = $request->json()->all();
-            // $input_array = (array)$request;
+            // $infput_array = (array)$request;
 
             $this->validate($request,[
                 'name' => 'required|max:10',
+                'friendcode' => 'sometimes|max:14|unique:users,nnid,'.$id,
                 'nnid' => 'sometimes|max:16|unique:users,nnid,'.$id,
                 'email' => 'sometimes|email|max:255|unique:users,email,'.$id,
                 'pass' => 'sometimes|min:6'
             ]);
 
             $user->name = $request->name;
+            $user->friendcode = $request->friendcode;
             $user->nnid = $request->nnid;
 
             if($request->pass != ''){

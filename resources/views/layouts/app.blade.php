@@ -55,14 +55,15 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Hunter Hubs
+                    <img class="title-icon" src="img/moofah-icon.png"><div>&nbsp Hunter Hubs <small><i>Beta</i></small></div>
                 </a>
+
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar -->
-                <!-- <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/') }}">Guild Hall</a></li>
+                <!-- Left Side Of Navbar 
+                 <ul class="nav navbar-nav">
+                    <li><a href="#">Beta</a></li>
                 </ul> -->
 
                 <!-- Right Side Of Navbar -->
