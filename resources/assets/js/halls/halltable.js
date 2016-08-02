@@ -32,7 +32,7 @@ class HallTable extends React.Component {
               <em>Passcode</em>
             </Th>
             <Th column="players">
-              <em>Players</em>
+              <em>Players lol</em>
             </Th>
           </Thead>
           {data.map((hall, i) => {
@@ -46,41 +46,38 @@ class HallTable extends React.Component {
                cellClass = 'wrap-onquest';
              }
           return (
-              <Tr id="hall-table" onClick = {() => this.props.router.push('/' + hall.idcode) } key={i} className = {rowClass}>
-                <Td column="name">
-                  <div className = {cellClass}>
-                    <div className = "row inner">
-                      <p className = "col-xs-9">
-                          <b>{hall.name}</b><br/>
-                          <i>{hall.desc}</i>
-                      </p>
-                      <div onClick={(e) => e.stopPropagation()} className = "col-xs-3">
-                        {editButton(this.props.editmode, hall, this.props.updateHandler, this.props.deleteHandler)}
-                      </div>
-                    </div>
-                  </div>
-                </Td>
-            <Td column="idcode">
+             <Tr id="hall-table" onClick = {() => this.props.router.push('/' + hall.idcode) } key={i} className = {rowClass}>
+               <Td column="name">
+                 <div>
+                   <p className = "col-xs-9">
+                     <b>{hall.name}</b><br/>
+                     <i>{hall.desc}</i>
+                   </p>
+                   <div onClick={(e) => e.stopPropagation()} className = "col-xs-3">
+                     {editButton(this.props.editmode, hall, this.props.updateHandler, this.props.deleteHandler)}
+                   </div>
+                 </div>
+               </Td>
+               <Td column="idcode">
               {hall.idcode}
             </Td>
             <Td column="pass">
               {hall.pass}
             </Td>
-            {/* <Td column="owner">
-            {hall.owner.name}
-            </Td> */}
             <Td column="players">
-              <div>
-                {hall.players.map((player, j) => {
-                if (hall.owner && player.name === hall.owner.name) {
-                  return <div key={j}><b>{player.name}</b><br/></div>;
-                } else {
-                  return <div key={j}>{player.name}<br/></div>;
-                }
-                })}
+              <div className = {cellClass}>
+                <div className = "row inner">
+                  {hall.players.map((player, j) => {
+                     if (hall.owner && player.name === hall.owner.name) {
+                       return <div key={j}><b>{player.name}</b><br/></div>;
+                     } else {
+                       return <div key={j}>{player.name}<br/></div>;
+                     }
+                   })}
+                </div>
               </div>
             </Td>
-          </Tr>);
+             </Tr>);
           })}
         </Table>
       </div>

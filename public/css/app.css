@@ -52,7 +52,7 @@ th {
   font-size: 44px;
   color: rgba(90, 25, 25, 0.15);
   top: 3%;
-  left: 3%;
+  right: 6%;
   z-index: 1; }
 
 .row-onquest {
@@ -67,8 +67,8 @@ th {
   position: absolute;
   font-size: 61px;
   color: rgba(70, 132, 192, 0.25);
-  top: -15%;
-  left: 3%;
+  top: -14%;
+  right: 5%;
   z-index: 1; }
 
 td {
