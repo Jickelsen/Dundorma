@@ -6,6 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Hunter Hubs</title>
+    <link rel='shortcut icon' type='image/x-icon' href='/img/moofah-icon.png' />
+
+    <meta name="description" content="Welcome to Hunter Hubs, THE place to find Monster Hunter multiplayer hubs!"/>
+    <meta name="keywords" content="video game, monster hunter, nintendo, 3ds, multiplayer" />
+    <link rel="canonical" href="http://www.hunterhubs.com/"/>
+    <meta property="og:locale" content="en_US"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Hunter Hubs - Monster Hunter Multiplayer Hubs"/>
+    <meta property="og:description" content="Welcome to Hunter Hubs, THE place to find Monster Hunter Generations multiplayer hubs!"/>
+    <meta property="og:url" content="http://www.hunterhubs.com"/>
+    <meta property="og:site_name" content="Hunter Hubs"/>
+    <meta property="og:image" content="http://www.hunterhubs.com/img/moofah-big.png"/>
+    <meta property="og:image:width" content="367" />
+    <meta property="og:image:height" content="388" />
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
@@ -84,10 +98,21 @@
                             </ul>
                         </li>
                     @endif
+                        <li><a href="{{ url('/contact') }}">Leave Feedback</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="pusher"></div>
+        @if(Session::has('message'))
+            <div class="alert alert-info">
+                {{Session::get('message')}}
+            </div>
+        @endif
+        </div>
+    </div>
 
     @yield('content')
 

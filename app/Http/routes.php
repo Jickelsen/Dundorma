@@ -51,10 +51,15 @@ Route::post('json/halls/join', 'HallController@join');
 Route::get('json/halls/leave', 'HallController@leave');
 
 //profile
-
 Route::get('/profile', 'ProfileController@index');
 Route::get('json/profile', 'ProfileController@getProfile');
 Route::post('json/profile/update', 'ProfileController@update');
+
+//contact
+Route::get('/contact', 
+           ['as' => 'contact', 'uses' => 'ContactController@create']);
+Route::post('/contact', 
+  ['as' => 'contact_store', 'uses' => 'ContactController@store']);
 
 Route::get('{path?}', function () {
     return view('halls');

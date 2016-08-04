@@ -34,8 +34,12 @@ class ProfileEditor extends React.Component {
     }
   }
   lenCheck(value, length, minLength) {
-    const len = value.length;
-    return len >= minLength && len <= length;
+    if (value) {
+      const len = value.length;
+      return len >= minLength && len <= length;
+    } else {
+      return minLength === 0;
+    }
   }
   stateChange (key, value) {
     if (key === 'name' && !this.lenCheck(value, MAX_NAME_LENGTH, 0)) {

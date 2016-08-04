@@ -32,7 +32,7 @@ class HallTable extends React.Component {
               <em>Passcode</em>
             </Th>
             <Th column="players">
-              <em>Players lol</em>
+              <em>Players</em>
             </Th>
           </Thead>
           {data.map((hall, i) => {

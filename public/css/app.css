@@ -52,7 +52,7 @@ th {
   font-size: 44px;
   color: rgba(90, 25, 25, 0.15);
   top: 3%;
-  right: 6%;
+  right: 10%;
   z-index: 1; }
 
 .row-onquest {
@@ -82,6 +82,9 @@ td {
   color: rgba(70, 132, 192, 0.8); }
 
 .panel-body h3 {
+  color: #d2d2d2; }
+
+#form-message {
   color: #d2d2d2; }
 
 .modal-content {

@@ -90,7 +90,7 @@ th {
   font-size: 44px;
   color: $full-icon;
   top: 3%;
-  right: 6%;
+  right: 10%;
   z-index: 1;
 }
 .row-onquest {
@@ -121,6 +121,10 @@ td{
 }
 
 .panel-body h3  {
+  color: $text-color-light;
+}
+
+#form-message {
   color: $text-color-light;
 }
 
