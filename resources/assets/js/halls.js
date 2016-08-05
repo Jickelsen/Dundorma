@@ -54,6 +54,8 @@ class Halls extends React.Component {
           }),
       success: function(data) {
         this.setState({...this.state, ...newHall});
+        this.loadHallsFromServer('json/halls/owned', 'myHalls');
+        this.loadHallsFromServer('json/halls/others', 'halls');
       },
     });
   }
@@ -74,6 +76,7 @@ class Halls extends React.Component {
       }),
       success: function(data) {
         this.loadHallsFromServer('json/halls/owned', 'myHalls');
+        this.loadHallsFromServer('json/halls/others', 'halls');
       },
     });
   }
@@ -99,6 +102,7 @@ class Halls extends React.Component {
         id: hall.id,
       }),
       success: function(data) {
+        // In case of guest functionality
         if (this.state.user.id !== 0) {
           this.loadHallsFromServer('json/halls/all', 'halls');
         } else {
@@ -113,6 +117,7 @@ class Halls extends React.Component {
       type: "GET",
       url: 'json/halls/leave',
       success: function(data) {
+        // In case of guest functionality
         if (this.state.user.id !== 0) {
           this.loadHallsFromServer('json/halls/all', 'halls');
         } else {
