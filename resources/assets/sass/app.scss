@@ -12,7 +12,11 @@ $text-color-light: rgb(210,210,210);
 $text-color: rgb(50,50,50);
 
 $weird-orange: rgb(230, 111, 80);
-$dark-orange: rgb(90, 25, 25);
+
+/* $dark-orange: rgb(90, 25, 25); */
+/* $dark-orange: rgb(125, 53, 53); */
+$dark-orange: rgb(128, 47, 47);
+
 $cool-orange: rgb(236,105,26);
 $light-orange: rgb(229,160,0);
 $cool-red: rgb(222,0,42);
@@ -28,7 +32,8 @@ $button-color-1: desaturate(darken($cool-orange, 5%), 15%);//rgb(149,133,75);
 $button-color-2: desaturate(darken($cool-green, 10%), 0%);;//rgb(93,127,94);
 
 .navbar-brand {
-  padding-top: 7px;
+  font-size: 24px;
+  padding-top: 5px;
 }
 
 .navbar-brand img, .navbar-brand div{
@@ -37,8 +42,29 @@ $button-color-2: desaturate(darken($cool-green, 10%), 0%);;//rgb(93,127,94);
 }
 
 .title-icon {
-  width: 35px;
+  width: 75px;
   height: auto;
+}
+.navbar-static-top {
+    min-height: 100px;
+}
+
+.navbar-nav > li > a {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    line-height: 100px;
+    font-size: 18px;
+}
+
+@media (max-width: 767px) {
+    .navbar-nav > li > a {
+    line-height: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 14px;}
+    .navbar-collapse {
+      margin-top: 52px;
+    }
 }
 
 .btn-sm.btn-primary {
@@ -129,7 +155,7 @@ td{
 }
 
 .modal-content {
-  background-color: $not-so-dark-background-color;
+  background-color: $dark-orange;
   border: 0;
 }
 .modal-header {
@@ -240,7 +266,7 @@ td{
 }
 
 .navbar-default {
-  background-color: $not-so-dark-background-color;
+  background-color: $dark-orange;
   border: 0;
 }
 
@@ -340,7 +366,7 @@ body {
 }
 .panel {
   padding: 7px;
-  background-color: $not-so-dark-background-color;
+  background-color: $dark-orange ;
 }
 
 .panel-filter {

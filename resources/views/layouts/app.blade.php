@@ -17,9 +17,9 @@
     <meta property="og:description" content="Welcome to Hunter Hubs, THE place to find Monster Hunter Generations multiplayer hubs!"/>
     <meta property="og:url" content="http://www.hunterhubs.com"/>
     <meta property="og:site_name" content="Hunter Hubs"/>
-    <meta property="og:image" content="http://www.hunterhubs.com/img/moofah-big.png"/>
-    <meta property="og:image:width" content="367" />
-    <meta property="og:image:height" content="388" />
+    <meta property="og:image" content="http://www.hunterhubs.com/img/moofah_logo_flowers.png"/>
+    <meta property="og:image:width" content="582" />
+    <meta property="og:image:height" content="693" />
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
@@ -69,7 +69,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img class="title-icon" src="img/moofah-icon.png"><div>&nbsp Hunter Hubs <small><i>Beta</i></small></div>
+      <img class="title-icon" src="img/moofah_logo_sm.png"><div class="row"><div class="col-xs-12">&nbsp Hunter Hubs</div><div class=col-xs-12>&nbsp&nbsp<small><i>Beta</i></small></div></div>
                 </a>
 
             </div>
