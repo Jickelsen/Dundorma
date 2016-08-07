@@ -9,7 +9,7 @@ import HallViewer from './halls/hallviewer';
 class Halls extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {halls:[], myHalls:[]};
     this.getUser();
   }
   getUser() {
@@ -128,15 +128,28 @@ class Halls extends React.Component {
   }
   render() {
     let popup;
-    if (this.props.children && this.state.halls) {
-      let hallInfo;
-      let attempt = this.state.halls.find(hall => hall.idcode === this.props.params.hallId);
+    let hallInfo;
+    if (this.props.children) {
+      let attempt;
+      let idParam = this.props.params.selParam.charAt(2) === "-";
+      if (idParam) {
+        attempt = this.state.halls.find(hall => hall.idcode === this.props.params.selParam);
+      } else {
+        attempt = this.state.halls.find(hall => hall.owner.name.toUpperCase() === this.props.params.selParam.toUpperCase());
+      }
       if (attempt) {
         hallInfo = attempt;
       } else {
-        hallInfo = this.state.myHalls.find(hall => hall.idcode === this.props.params.hallId);
+        if (idParam) {
+          hallInfo = this.state.myHalls.find(hall => hall.idcode === this.props.params.selParam);
+        } else {
+          hallInfo= this.state.myHalls.find(hall => hall.owner.name.toUpperCase() === this.props.params.selParam.toUpperCase());
+        }
       }
-      popup = React.cloneElement(this.props.children, { hall: hallInfo, joinHandler: this.joinHall.bind(this), leaveHandler: this.leaveHall.bind(this), user: this.state.user });
+      console.log("Retrieved hall", hallInfo);
+      if (hallInfo) {
+        popup = React.cloneElement(this.props.children, { hall: hallInfo, joinHandler: this.joinHall.bind(this), leaveHandler: this.leaveHall.bind(this), user: this.state.user });
+      }
     }
     let usersHalls = <div></div>;
     let addButton = <div></div>;
@@ -181,7 +194,7 @@ class Halls extends React.Component {
 ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/" component={Halls}>
-      <Route path="/:hallId" component={HallViewer}/>
+      <Route path="/:selParam" component={HallViewer}/>
     </Route>
   </Router>,
   document.getElementById('halls')
