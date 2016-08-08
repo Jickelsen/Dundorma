@@ -51,7 +51,7 @@ class HallViewer extends React.Component {
                   {this.props.hall.idcode}
                 </p>
                 <p>
-                  <label>Name<br/></label><br/>
+                  <label>Title<br/></label><br/>
                   {this.props.hall.name}
                 </p>
                 <p>

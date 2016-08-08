@@ -23,7 +23,7 @@ class HallTable extends React.Component {
         <Table className="table" sortable={false} >
           <Thead>
             <Th column="name">
-              <em>Name & Description</em>
+              <em>Title & Description</em>
             </Th>
             <Th column="idcode">
               <em>Hall ID</em>
@@ -31,11 +31,17 @@ class HallTable extends React.Component {
             <Th column="pass">
               <em>Passcode</em>
             </Th>
+            <Th column="updated">
+              <em>Updated</em>
+            </Th>
             <Th column="players">
               <em>Players</em>
             </Th>
           </Thead>
           {data.map((hall, i) => {
+             const now = new Date();
+             const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000); 
+             const minutes = Math.floor((utc - Date.parse(hall.updated_at)) / 60000);
              let cellClass;
              let rowClass;
              if (hall && hall.full) {
@@ -76,6 +82,9 @@ class HallTable extends React.Component {
                    })}
                 </div>
               </div>
+            </Td>
+            <Td column="updated">
+              {minutes + "m ago"}
             </Td>
              </Tr>);
           })}

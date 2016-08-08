@@ -1,10 +1,12 @@
 import React from 'react';
 import Modal from 'react-bootstrap-modal';
+import { withRouter } from 'react-router';
 
 const MAX_NAME_LENGTH = 64;
 const MAX_DESC_LENGTH = 100;
 const MAX_PASS_LENGTH = 4;
-export default class HallAdder extends React.Component {
+
+class HallAdder extends React.Component {
 
   constructor(props) {
     super(props);
@@ -87,8 +89,10 @@ export default class HallAdder extends React.Component {
   render() {
     let closeModal = () => this.setState({...this.state, open: false });
     let saveAndClose = () => {
+      const idcode = this.state.idcode;
       this.props.addHandler(this.state);
       this.setState({...this.state, ...{name:'', desc:'', idcode:'', pass:'', onquest: false, full: false, private: false, open:false}});
+      this.props.router.push('/' + idcode);
     };
     let save = () => {
       this.props.addHandler(this.state);
@@ -151,7 +155,7 @@ export default class HallAdder extends React.Component {
               <span className={"glyphicon " + (this.idValidate(this.state.idcode) && !this.state.viewmode ? "" : "glyphicon-warning-sign") + " form-control-feedback"} aria-hidden="true"></span>
             </div>
             <div className={"form-group has-feedback " + (this.state.name.length > 0 && !this.state.viewmode ? "has-success" : "has-warning")}>
-              <label>Name*</label>
+              <label>Title*</label>
               <input className="form-control" type="text" value={this.state.name} onChange = {(e) => this.stateChange("name", e.target.value)}/>
               <span className={"glyphicon " + (this.state.name.length > 0 && !this.state.viewmode ? "" : "glyphicon-warning-sign") + " form-control-feedback"} aria-hidden="true"></span>
             </div>
@@ -174,3 +178,5 @@ export default class HallAdder extends React.Component {
     );
   }
 }
+ 
+export default withRouter(HallAdder);

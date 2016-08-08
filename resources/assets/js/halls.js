@@ -146,7 +146,6 @@ class Halls extends React.Component {
           hallInfo= this.state.myHalls.find(hall => hall.owner.name.toUpperCase() === this.props.params.selParam.toUpperCase());
         }
       }
-      console.log("Retrieved hall", hallInfo);
       if (hallInfo) {
         popup = React.cloneElement(this.props.children, { hall: hallInfo, joinHandler: this.joinHall.bind(this), leaveHandler: this.leaveHall.bind(this), user: this.state.user });
       }

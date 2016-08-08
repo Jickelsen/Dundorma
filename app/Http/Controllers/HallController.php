@@ -53,10 +53,10 @@ class HallController extends Controller
     public function register(Request $request)
     {
         // Hackish solution to delete own hall once user joins a new one
-        $oldHall = $request->user()->halls()->first();
-        if (!is_null($oldHall)) {
-            $oldHall->delete();
-        }
+        // $oldHall = $request->user()->halls()->first();
+        // if (!is_null($oldHall)) {
+        //     $oldHall->delete();
+        // }
 
         $request->name = $request->json('name');
         $request->desc = $request->json('desc');
@@ -127,11 +127,13 @@ class HallController extends Controller
     public function join(Request $request)
     {
         $request->id = $request->json('id');
+
         // Hackish solution to delete own hall once user joins a new one
-        $oldHall = $request->user()->halls()->first();
-        if (!is_null($oldHall)) {
-            $oldHall->delete();
-        }
+        // $oldHall = $request->user()->halls()->first();
+        // if (!is_null($oldHall)) {
+        //     $oldHall->delete();
+        // }
+
         $hall = Hall::with('owner', 'players')->where('id', '=', $request->id)->first();
         $player = $request->user();
         $player->joinedHall()->associate($hall);
