@@ -69,16 +69,17 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-      <img class="title-icon" src="img/moofah_logo_sm.png"><div class="row"><div class="col-xs-12">&nbsp Hunter Hubs</div><div class=col-xs-12>&nbsp&nbsp<small><i>Beta</i></small></div></div>
+      <img class="title-icon" src="img/moofah_logo_sm.png"><div class="row"><div class="col-xs-12">&nbsp Hunter Hubs<br>&nbsp&nbsp<small><i>Beta</i></small></div></div>
                 </a>
 
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar 
+                <!-- Left Side Of Navbar  -->
                  <ul class="nav navbar-nav">
-                    <li><a href="#">Beta</a></li>
-                </ul> -->
+                    <li><a href="/">Hubs</a></li>
+                    <li><a href="/hunters">Hunters</a></li>
+                </ul>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">

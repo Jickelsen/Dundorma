@@ -19,7 +19,7 @@ export default class PlayerTable extends React.Component {
         </Thead>
         {data.map((player, i) => {
            let playerName;
-           if (player.name === this.props.owner.name) {
+           if (this.props.owner && player.name === this.props.owner.name) {
              playerName =
                <Td column="name">
                  <div>{player.name + ' (owner)'}<br/>
@@ -29,7 +29,8 @@ export default class PlayerTable extends React.Component {
          } else {
              playerName =
                <Td column="name">
-                 {player.name}
+                 <div>{player.name}<br/>
+                 {player.friendcode}</div>
                </Td>;
          }
         return (

@@ -40,7 +40,7 @@ class AuthController extends Controller
     public function __construct(Socialite $socialite)
     {
         $this->socialite = $socialite;
-        $this->middleware($this->guestMiddleware(), ['except' => ['current', 'logout']]);
+        $this->middleware($this->guestMiddleware(), ['except' => ['current', 'all', 'logout']]);
     }
 
     /**
@@ -136,6 +136,11 @@ class AuthController extends Controller
             'facebook_id' => $facebookUser->id,
             'avatar' => $facebookUser->avatar
         ]);
+    }
+
+    public function all()
+    {
+        return User::with('halls')->get();
     }
 
     public function current(){

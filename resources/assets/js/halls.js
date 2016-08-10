@@ -5,6 +5,7 @@ import { Router, Route, browserHistory } from 'react-router';
 import HallTable from './halls/halltable';
 import HallAdder from './halls/halladder';
 import HallViewer from './halls/hallviewer';
+import Hunters from './hunters';
 
 class Halls extends React.Component {
   constructor(props) {
@@ -192,6 +193,9 @@ class Halls extends React.Component {
 
 ReactDOM.render(
   <Router history={browserHistory}>
+    <Route path="/hunters" component={Hunters}>
+      {/* <Route path="/hunters/:hunter" component={HallViewer}/> */}
+    </Route>
     <Route path="/" component={Halls}>
       <Route path="/:selParam" component={HallViewer}/>
     </Route>

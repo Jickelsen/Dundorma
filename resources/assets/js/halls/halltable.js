@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Thead, Th, Tr, Td } from 'reactable';
 
-import { Link, withRouter } from 'react-router';
+import { withRouter } from 'react-router';
 
 import HallAdder from './halladder';
 

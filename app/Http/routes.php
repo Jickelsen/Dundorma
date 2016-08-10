@@ -38,7 +38,7 @@ Route::get('/login/callback/{provider?}',[
 ]);
 
 Route::get('json/players/current', 'Auth\AuthController@current');
-// Route::get('json/players/loggedin', 'Auth\AuthController@loggedin');
+Route::get('json/players/all', 'Auth\AuthController@all');
 
 //ajax
 Route::get('json/halls/all', 'HallController@all');
