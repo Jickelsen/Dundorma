@@ -20,7 +20,7 @@ class AgeScope implements Scope
 
     public function apply(Builder $builder, Model $model)
     {
-        $MAX_AGE_HOURS = 2;
+        $MAX_AGE_HOURS = 4;
         return $builder->where('updated_at', '>', Carbon::now()->subHours($MAX_AGE_HOURS));
     }
 }

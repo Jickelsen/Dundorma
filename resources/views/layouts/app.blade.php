@@ -8,13 +8,13 @@
     <title>Hunter Hubs</title>
     <link rel='shortcut icon' type='image/x-icon' href='/img/moofah-icon.png' />
 
-    <meta name="description" content="Welcome to Hunter Hubs, THE place to find Monster Hunter multiplayer hubs!"/>
+    <meta name="description" content="Welcome to Hunter Hubs, THE place to find Monster Hunter Generations multiplayer hubs"/>
     <meta name="keywords" content="video game, monster hunter, nintendo, 3ds, multiplayer" />
     <link rel="canonical" href="http://www.hunterhubs.com/"/>
     <meta property="og:locale" content="en_US"/>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Hunter Hubs - Monster Hunter Multiplayer Hubs"/>
-    <meta property="og:description" content="Welcome to Hunter Hubs, THE place to find Monster Hunter Generations multiplayer hubs!"/>
+    <meta property="og:description" content="Welcome to Hunter Hubs, THE place to find Monster Hunter Generations multiplayer hubs"/>
     <meta property="og:url" content="http://www.hunterhubs.com"/>
     <meta property="og:site_name" content="Hunter Hubs"/>
     <meta property="og:image" content="http://www.hunterhubs.com/img/moofah_logo_flowers.png"/>

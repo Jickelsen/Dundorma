@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Snipe\BanBuilder\CensorWords;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -73,10 +74,11 @@ class HallController extends Controller
         //  'id' => 'required',
         // ]);
 
+        $censor = new CensorWords;
 
         $hall = $owner->halls()->create([
-            'name' => $request->json('name'),
-            'desc' => $request->json('desc'),
+            'name' => $censor->censorString($request->json('name'), true)['clean'],
+            'desc' => $censor->censorString($request->json('desc'), true)['clean'],
             'idcode' => $request->json('idcode'),
             'onquest' => $request->json('onquest'),
             'full' => $request->json('full'),
@@ -104,10 +106,12 @@ class HallController extends Controller
         $request->pass = $request->json('pass');
         $request->private = $request->json('private');
 
+        $censor = new CensorWords;
+
         $request->user()->halls()->with('owner', 'players')->where('id', '=', $request->id)->update([
         // Hall::with('owner', 'players')->where('id', '!=', $request->id)->update([
-            'name' => $request->json('name'),
-            'desc' => $request->json('desc'),
+            'name' => $censor->censorString($request->json('name'), true)['clean'],
+            'desc' => $censor->censorString($request->json('desc'), true)['clean'],
             'idcode' => $request->json('idcode'),
             'onquest' => $request->json('onquest'),
             'full' => $request->json('full'),
@@ -145,11 +149,5 @@ class HallController extends Controller
         $player = $request->user();
         $player->joinedHall()->dissociate();
         $player->save();
-    }
-
-    public function getlog(Request $request)
-    { 
-        DB::connection()->enableQueryLog();
-        return DB::getQueryLog(); 
     }
 }
