@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
 
-const MAX_NAME_LENGTH = 10;
+const MAX_NAME_LENGTH = 20;
 const MAX_FRIENDCODE_LENGTH = 14;
 const MAX_NNID_LENGTH = 16;
 const MIN_PASS_LENGTH = 6;

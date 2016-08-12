@@ -44,7 +44,7 @@ class ProfileController extends Controller
             // $infput_array = (array)$request;
 
             $this->validate($request,[
-                'name' => 'required|max:10',
+                'name' => 'required|max:20',
                 'friendcode' => 'sometimes|max:14|unique:users,nnid,'.$id,
                 'nnid' => 'sometimes|max:16|unique:users,nnid,'.$id,
                 'email' => 'sometimes|email|max:255|unique:users,email,'.$id,

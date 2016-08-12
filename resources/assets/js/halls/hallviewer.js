@@ -72,7 +72,8 @@ class HallViewer extends React.Component {
         <PlayerTable players={this.props.hall.players} owner={this.props.hall.owner} />
               </div>
             </div>
-              <label>Direct Link</label><input className="form-control" type="text" defaultValue={"http://hunterhubs.com/"+this.props.hall.idcode} />
+            <p><label>Direct Link</label><input className="form-control" type="text" defaultValue={"http://hunterhubs.com/"+this.props.hall.idcode} /></p>
+            <p><label>Permalink to your latest active hall</label><input className="form-control" type="text" defaultValue={"http://hunterhubs.com/"+this.props.hall.owner.name.toLowerCase()} /></p>
           </Modal.Body>
           <Modal.Footer>
             <Modal.Dismiss className="btn btn-default">Cancel</Modal.Dismiss>

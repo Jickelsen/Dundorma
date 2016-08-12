@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Thead, Th, Tr, Td } from 'reactable';
+import { Table, Thead, Th, Tr, Td, unsafe } from 'reactable';
 
 import { withRouter } from 'react-router';
 
@@ -20,7 +20,7 @@ class HallTable extends React.Component {
     };
     return (
       <div>
-        <Table className="table" sortable={false} >
+        <Table className="table" sortable={false} filterable={['name', 'players']} filterBy={this.props.filter} hideFilterInput >
           <Thead>
             <Th column="name">
               <em>Title & Description</em>
@@ -53,7 +53,7 @@ class HallTable extends React.Component {
              }
           return (
              <Tr id="hall-table" onClick = {() => this.props.router.push('/' + hall.idcode) } key={i} className = {rowClass}>
-               <Td column="name">
+               <Td column="name" value={unsafe(hall.name + ' ' + hall.desc)} >
                  <div>
                    <p className = "col-xs-9">
                      <b>{hall.name}</b><br/>
@@ -70,7 +70,9 @@ class HallTable extends React.Component {
             <Td column="pass">
               {hall.pass}
             </Td>
-            <Td column="players">
+            <Td column="players" value={unsafe(hall.players.map((player) =>
+                player.name
+              ).join(","))} >
               <div className = {cellClass}>
                 <div className = "row inner">
                   {hall.players.map((player, j) => {

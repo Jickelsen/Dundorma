@@ -10,7 +10,7 @@ import Hunters from './hunters';
 class Halls extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {halls:[], myHalls:[]};
+    this.state = {halls:[], myHalls:[], filter:""};
     this.getUser();
   }
   getUser() {
@@ -153,23 +153,31 @@ class Halls extends React.Component {
     }
     let usersHalls = <div></div>;
     let addButton = <div></div>;
+    let filterField = <div className="col-xs-3 form-inline">
+      <div>
+      {/* <label className="">Filter</label> */}
+      <input type="text" className="form-control pull-right" placeholder="Filter" value={this.state.filter} onChange = {(e) => {this.state["filter"]= e.target.value; this.forceUpdate();}}/></div></div>;
     if (this.state.user && this.state.user.id != 0) {
       addButton = <HallAdder addHandler={this.postNewHall.bind(this)}/>;
       usersHalls =
       <div>
-        <h3 className="col-xs-9">My Hubs</h3>
-        <div className="col-xs-3">
-        {addButton}
-      </div>
+        <h3 className="col-xs-12">My Hubs</h3>
         <div className="col-xs-12">
           <HallTable updateHandler={this.updateHall.bind(this)} deleteHandler={this.deleteHall.bind(this)} data={this.state.myHalls} editmode={true} />
         </div>
-        <h3 className="col-xs-12">Other Hubs</h3>
+        <div className="col-xs-2 col-xs-offset-5">
+        {addButton}
+      </div>
+      <div>
+        <h3 className="col-xs-9">Other Hubs</h3>
+        {filterField}
+      </div>
       </div>;
     } else {
       usersHalls =
       <div>
-        <h3 className="col-xs-12">Hubs</h3>
+        <h3 className="col-xs-9">Hubs</h3>
+        {filterField}
       </div>;
     }
     return (
@@ -178,7 +186,7 @@ class Halls extends React.Component {
         <div className="row">
           {usersHalls}
           <div className="col-xs-12">
-            <HallTable data={this.state.halls} editmode={false} />
+            <HallTable data={this.state.halls} editmode={false} filter={this.state.filter} />
           </div>
         </div>
         <div><center><p align="center">Hubs are automatically deleted after four hours of inactivity</p></center></div>
