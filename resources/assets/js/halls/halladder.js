@@ -134,7 +134,7 @@ class HallAdder extends React.Component {
         </div>
       </div>;
       openButton = 
-          <button type='button' className='btn btn-primary center-block' onClick={() => this.setState({...this.state, open: true }) }>Post New Hub</button>;
+          <button type='button' className='btn btn-primary pull-right' onClick={() => this.setState({...this.state, open: true }) }>Post New Hub</button>;
     }
     return (
       <div>

@@ -40,8 +40,14 @@ class HallTable extends React.Component {
           </Thead>
           {data.map((hall, i) => {
              const now = new Date();
-             const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000); 
-             const minutes = Math.floor((utc - Date.parse(hall.updated_at)) / 60000);
+             const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000).getTime();
+             // Solution from http://stackoverflow.com/questions/3075577/convert-mysql-datetime-stamp-into-javascripts-date-format
+             // Split timestamp into [ Y, M, D, h, m, s ]
+             const t = hall.updated_at.split(/[- :]/);
+             // Apply each element to the Date function
+             const d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]).getTime();
+             const minutes = Math.floor((utc - d) / 60000);
+
              let cellClass;
              let rowClass;
              if (hall && hall.full) {

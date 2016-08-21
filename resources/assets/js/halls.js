@@ -160,19 +160,19 @@ class Halls extends React.Component {
     if (this.state.user && this.state.user.id != 0) {
       addButton = <HallAdder addHandler={this.postNewHall.bind(this)}/>;
       usersHalls =
-      <div>
-        <h3 className="col-xs-12">My Hubs</h3>
-        <div className="col-xs-12">
-          <HallTable updateHandler={this.updateHall.bind(this)} deleteHandler={this.deleteHall.bind(this)} data={this.state.myHalls} editmode={true} />
-        </div>
-        <div className="col-xs-2 col-xs-offset-5">
-        {addButton}
-      </div>
-      <div>
-        <h3 className="col-xs-9">Other Hubs</h3>
-        {filterField}
-      </div>
-      </div>;
+        <div>
+          <h3 className="col-xs-9">My Hubs</h3>
+          <div className="col-xs-3">
+            {addButton}
+          </div>
+          <div className="col-xs-12">
+            <HallTable updateHandler={this.updateHall.bind(this)} deleteHandler={this.deleteHall.bind(this)} data={this.state.myHalls} editmode={true} />
+          </div>
+          <div>
+            <h3 className="col-xs-9">Other Hubs</h3>
+            {filterField}
+          </div>
+        </div>;
     } else {
       usersHalls =
       <div>
@@ -202,7 +202,6 @@ class Halls extends React.Component {
 ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/hunters" component={Hunters}>
-      {/* <Route path="/hunters/:hunter" component={HallViewer}/> */}
     </Route>
     <Route path="/" component={Halls}>
       <Route path="/:selParam" component={HallViewer}/>
