@@ -38,12 +38,15 @@ class HallController extends Controller
     }
 
     public function others(Request $request){
-
-        return Hall::with('owner', 'players')->where('owner_id', '!=', $request->user()->id)->orderBy('id', 'asc')->get();
+        return Hall::with('owner', 'players')->where('owner_id', '!=', $request->user()->id)->where('idcode', '!=', "")->orderBy('id', 'asc')->get();
     }
 
     public function all(Request $request){
-        return Hall::with('owner', 'players')->get();
+        return Hall::with('owner', 'players')->where('idcode', '!=', "")->get();
+    }
+
+    public function scheduled(Request $request){
+        return Hall::with('owner', 'players')->whereDate('scheduled_for', '>=', date("Y-m-d"))->get();
     }
 
     public function players(Request $request)
@@ -62,6 +65,8 @@ class HallController extends Controller
         $request->name = $request->json('name');
         $request->desc = $request->json('desc');
         $request->idcode = $request->json('idcode');
+        $request->idcode = $request->json('idcode');
+        $request->scheduled_for = $request->json('scheduled_for');
         $request->pass = $request->json('pass');
         $request->onquest = $request->json('onquest');
         $request->full = $request->json('full');
@@ -76,10 +81,18 @@ class HallController extends Controller
 
         $censor = new CensorWords;
 
+        $scheduled_for;
+        if ($request->json('scheduled_for') == "") {
+            $scheduled_for = null; 
+        } else {
+            $scheduled_for = date("Y-m-d H:i:s", $request->json('scheduled_for')/1000);
+        }
+
         $hall = $owner->halls()->create([
             'name' => $censor->censorString($request->json('name'), true)['clean'],
             'desc' => $censor->censorString($request->json('desc'), true)['clean'],
             'idcode' => $request->json('idcode'),
+            'scheduled_for' => $scheduled_for,
             'onquest' => $request->json('onquest'),
             'full' => $request->json('full'),
             'pass' => $request->json('pass'),
@@ -91,7 +104,7 @@ class HallController extends Controller
         // $hall->save();
         $owner->joinedHall()->associate($hall);
         $owner->save();
-
+        return $scheduled_for;
     }
 
     public function update(Request $request)

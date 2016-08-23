@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "react": "^0.14.8",
+    "react-bootstrap-datetimepicker": "0.0.22",
     "react-bootstrap-modal": "^2.1.0",
     "react-dom": "^0.14.8",
     "react-redux": "^4.4.5",

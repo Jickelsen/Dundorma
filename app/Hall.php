@@ -16,7 +16,7 @@ class Hall extends Model
      * @var array
      */
     protected $fillable = [
-    	'name', 'desc', 'idcode', 'pass'
+    	'name', 'desc', 'idcode', 'scheduled_for', 'pass'
     ];
 
     protected $casts = [

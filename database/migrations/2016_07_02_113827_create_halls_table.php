@@ -24,7 +24,7 @@ class CreateHallsTable extends Migration
             $table->integer('onquest')->default(0);
             $table->integer('full')->default(0);
             $table->integer('private')->default(0);
-            $table->timestamp('scheduled');
+            $table->timestamp('scheduled_for');
             $table->rememberToken();
             $table->timestamps();
         });

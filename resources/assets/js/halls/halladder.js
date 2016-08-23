@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-bootstrap-modal';
 import { withRouter } from 'react-router';
+import DateTimeField from 'react-bootstrap-datetimepicker';
 
 const MAX_NAME_LENGTH = 64;
 const MAX_DESC_LENGTH = 100;
@@ -10,17 +11,19 @@ class HallAdder extends React.Component {
 
   constructor(props) {
     super(props);
-    let state = {name:'', desc:'', idcode:'', pass:'', onquest: false, full:false, private: false, open:false, editmode:false, viewmode:false};
-    if (this.props.editmode && this.props.hall) {
-      this.state = {...state, ...{...this.props.hall, editmode: true}};
-    } else {
-      this.state = state;
-    }
+    this.state = {name:'', desc:'', idcode:'', pass:'', onquest: false, full:false, scheduled: false, scheduled_for:'', open:false, editmode:false, viewmode:false};
   }
   componentDidMount() {
-    if (this.props.params && this.props.params.hallId) {
-      let state = this.props.getHall(this.props.params.hallId);
-      this.setState({...state, ...{open:true, viewmode:true}});
+    if (this.props.editmode && this.props.hall) {
+      console.log("hall is", this.props.hall);
+      let state = this.state;
+      state = {...state, ...{...this.props.hall, editmode: true}};
+      console.log("Fired", this.props.hall.scheduled_for);
+      if (this.props.hall.scheduled_for && this.props.hall.scheduled_for !== '') {
+        console.log("Fired 2");
+        state = {...state, scheduled: true};
+      }
+      this.setState(state);
     }
   }
   componentWillReceiveProps(newProps) {
@@ -62,6 +65,10 @@ class HallAdder extends React.Component {
     const len = value.length;
     return len >= minLength && len <= length;
   }
+  dateChange (date) {
+    this.state["scheduled_for"] = date;
+    this.forceUpdate();
+  }
   stateChange (key, value) {
     if (key === 'idcode') {
       const newVal = this.idFormat(value);
@@ -89,11 +96,14 @@ class HallAdder extends React.Component {
   render() {
     let closeModal = () => this.setState({...this.state, open: false });
     let saveAndClose = () => {
-      const idcode = this.state.idcode;
+      let permalink = this.state.idcode;
+      if (permalink === "") {
+        const s = this.state.scheduled_for.split(/[- :]/);
+        permalink = this.state.name.replace(/\W+/g, '-').toLowerCase();
+      }
       this.props.addHandler(this.state);
-      this.setState({...this.state, ...{name:'', desc:'', idcode:'', pass:'', onquest: false, full: false, private: false, open:false}});
-      this.props.router.push('/' + idcode);
-    };
+      this.setState({...this.state, ...{name:'', desc:'', idcode:'', pass:'', onquest: false, full: false, scheduled: false, scheduled_for:'', open:false}});
+      this.props.router.push('/' + permalink);};
     let save = () => {
       this.props.addHandler(this.state);
     };
@@ -103,14 +113,32 @@ class HallAdder extends React.Component {
     };
     let openButton;
     let footer;
-    let ok = this.idValidate(this.state.idcode) && this.passValidate(this.state.pass) && this.lenCheck(this.state.name, MAX_NAME_LENGTH, 1) && this.lenCheck(this.state.desc, MAX_DESC_LENGTH, 1);
+    let ok = (this.idValidate(this.state.idcode) || this.state.scheduled) && this.passValidate(this.state.pass) && this.lenCheck(this.state.name, MAX_NAME_LENGTH, 1) && this.lenCheck(this.state.desc, MAX_DESC_LENGTH, 1);
+    let datePicker;
+    let idSection;
+      console.log("date is", this.state.scheduled_for);
+      //console.log("props are", this.props);
+    if (this.state.scheduled) {
+      if (this.state.scheduled_for !== "") {
+        datePicker = <DateTimeField onChange={this.dateChange.bind(this)} dateTime={this.state.scheduled_for} />;
+      } else {
+        datePicker = <DateTimeField onChange={this.dateChange.bind(this)} />;
+      }
+    } else {
+      idSection =
+        <div className={"form-group has-feedback " + (this.idValidate(this.state.idcode) && !this.state.viewmode ? "has-success" : "has-warning")}>
+          <label>Hub-ID*</label>
+          <input className="form-control" type="text" value={this.state.idcode} onChange = {(e) => this.stateChange("idcode", e.target.value)}/>
+          <span className={"glyphicon " + (this.idValidate(this.state.idcode) && !this.state.viewmode ? "" : "glyphicon-warning-sign") + " form-control-feedback"} aria-hidden="true"></span>
+        </div>;
+    }
     if (this.state.editmode) {
-      
+
       openButton = <button className="btn-sm btn-primary" onClick={() => this.setState({...this.state, open: true }) }>Edit</button>;
       footer =
       <div className = "row">
         <div className = "col-xs-3">
-          <button className="btn btn-danger pull-left" onClick={deleteAndClose}> Delete Hub </button>;
+          <button className="btn btn-danger pull-left" onClick={deleteAndClose}> Delete </button>;
         </div>
 
         <div className="form-group col-xs-5" id="roomCheckboxes">
@@ -133,8 +161,8 @@ class HallAdder extends React.Component {
         <div className = "col-xs-5 col-xs-offset-7"><button className='btn btn-primary' onClick={saveAndClose} disabled={!ok}> Post Hub </button>
         </div>
       </div>;
-      openButton = 
-          <button type='button' className='btn btn-primary pull-right' onClick={() => this.setState({...this.state, open: true }) }>Post New Hub</button>;
+      openButton =
+          <button type='button' className='btn btn-primary pull-right' onClick={() => this.setState({...this.state, open: true }) }>Post New Hub or Event</button>;
     }
     return (
       <div>
@@ -145,15 +173,16 @@ class HallAdder extends React.Component {
           aria-labelledby="ModalHeader"
         >
           <Modal.Header closeButton>
-            <Modal.Title id='ModalHeader'>Hub Details</Modal.Title>
+            <Modal.Title id='ModalHeader'>Hunt Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div className={"form-group has-feedback " + (this.idValidate(this.state.idcode) && !this.state.viewmode ? "has-success" : "has-warning")}>
-              
-              <label>Hub-ID*</label>
-              <input className="form-control" type="text" value={this.state.idcode} onChange = {(e) => this.stateChange("idcode", e.target.value)}/>
-              <span className={"glyphicon " + (this.idValidate(this.state.idcode) && !this.state.viewmode ? "" : "glyphicon-warning-sign") + " form-control-feedback"} aria-hidden="true"></span>
+            <div className="form-group">
+              <div className="checkbox">
+                <label><input type="checkbox" checked={this.state.scheduled} onChange = {(e) => this.stateChange("scheduled", e.target.checked)}/>Upcoming Event</label>
+                {datePicker}
+              </div>
             </div>
+            {idSection}
             <div className={"form-group has-feedback " + (this.state.name.length > 0 && !this.state.viewmode ? "has-success" : "has-warning")}>
               <label>Title*</label>
               <input className="form-control" type="text" value={this.state.name} onChange = {(e) => this.stateChange("name", e.target.value)}/>
@@ -169,6 +198,7 @@ class HallAdder extends React.Component {
               <input className="form-control" type="text" value={this.state.pass} onChange = {(e) => this.stateChange("pass", e.target.value)}/>
               <span className={"glyphicon " + (this.passValidate(this.state.pass) && !this.state.viewmode ? "" : "glyphicon-warning-sign") + " form-control-feedback"} aria-hidden="true"></span>
             </div>
+
           </Modal.Body>
           <Modal.Footer>
             {footer}
@@ -178,5 +208,5 @@ class HallAdder extends React.Component {
     );
   }
 }
- 
+
 export default withRouter(HallAdder);

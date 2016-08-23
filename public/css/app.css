@@ -128,6 +128,9 @@ td {
 .modal-body hr {
   border-top-color: #ec691a; }
 
+.bootstrap-datetimepicker-widget {
+  color: #323232; }
+
 .vertically-stretched-container {
   display: -ms-flexbox;
   display: flex;

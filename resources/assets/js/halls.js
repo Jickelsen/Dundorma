@@ -10,7 +10,7 @@ import Hunters from './hunters';
 class Halls extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {halls:[], myHalls:[], filter:""};
+    this.state = {halls:[], myHalls:[], scheduledHalls:[], filter:""};
     this.getUser();
   }
   getUser() {
@@ -29,6 +29,8 @@ class Halls extends React.Component {
           this.loadHallsFromServer('json/halls/all', 'halls');
           setInterval(() => this.loadHallsFromServer('json/halls/all', 'halls'), 10000);
         }
+          this.loadHallsFromServer('json/halls/scheduled', 'scheduledHalls');
+          setInterval(() => this.loadHallsFromServer('json/halls/scheduled', 'scheduledHalls'), 60000);
       },
     });
   }
@@ -48,6 +50,7 @@ class Halls extends React.Component {
             name: newHall.name,
             desc: newHall.desc,
             idcode: newHall.idcode,
+            scheduled_for: newHall.scheduled_for,
             pass: newHall.pass,
             onquest: newHall.onquest,
             full: newHall.full,
@@ -57,6 +60,7 @@ class Halls extends React.Component {
         this.setState({...this.state, ...newHall});
         this.loadHallsFromServer('json/halls/owned', 'myHalls');
         this.loadHallsFromServer('json/halls/others', 'halls');
+        this.loadHallsFromServer('json/halls/scheduled', 'scheduledHalls');
       },
     });
   }
@@ -70,6 +74,7 @@ class Halls extends React.Component {
             name: newHall.name,
             desc: newHall.desc,
             idcode: newHall.idcode,
+            scheduled_for: newHall.scheduled_for,
             onquest: newHall.onquest,
             full: newHall.full,
             pass: newHall.pass,
@@ -78,6 +83,7 @@ class Halls extends React.Component {
       success: function(data) {
         this.loadHallsFromServer('json/halls/owned', 'myHalls');
         this.loadHallsFromServer('json/halls/others', 'halls');
+        this.loadHallsFromServer('json/halls/scheduled', 'scheduledHalls');
       },
     });
   }
@@ -106,8 +112,10 @@ class Halls extends React.Component {
         // In case of guest functionality
         if (this.state.user.id !== 0) {
           this.loadHallsFromServer('json/halls/all', 'halls');
+        this.loadHallsFromServer('json/halls/scheduled', 'scheduledHalls');
         } else {
           this.loadHallsFromServer('json/halls/others', 'halls');
+        this.loadHallsFromServer('json/halls/scheduled', 'scheduledHalls');
         }
       },
     });
@@ -132,7 +140,7 @@ class Halls extends React.Component {
     let hallInfo;
     if (this.props.children) {
       let attempt;
-      let idParam = this.props.params.selParam.charAt(2) === "-";
+      let idParam = this.props.params.selParam.charAt(2) === "-" && this.props.params.selParam.length == 17;
       if (idParam) {
         attempt = this.state.halls.find(hall => hall.idcode === this.props.params.selParam);
       } else {
@@ -146,6 +154,13 @@ class Halls extends React.Component {
         } else {
           hallInfo= this.state.myHalls.find(hall => hall.owner.name.toUpperCase() === this.props.params.selParam.toUpperCase());
         }
+      }
+      if (!hallInfo) {
+        console.log("scheduled halls", this.state.scheduledHalls);
+        hallInfo = this.state.scheduledHalls.find(hall => 
+          hall.name.replace(/\W+/g, '-').toLowerCase() === this.props.params.selParam.toLowerCase()
+        );
+        console.log("found a hall", hallInfo);
       }
       if (hallInfo) {
         popup = React.cloneElement(this.props.children, { hall: hallInfo, joinHandler: this.joinHall.bind(this), leaveHandler: this.leaveHall.bind(this), user: this.state.user });
@@ -161,7 +176,7 @@ class Halls extends React.Component {
       addButton = <HallAdder addHandler={this.postNewHall.bind(this)}/>;
       usersHalls =
         <div>
-          <h3 className="col-xs-9">My Hubs</h3>
+          <h3 className="col-xs-9">My Hubs & Events</h3>
           <div className="col-xs-3">
             {addButton}
           </div>
@@ -187,6 +202,10 @@ class Halls extends React.Component {
           {usersHalls}
           <div className="col-xs-12">
             <HallTable data={this.state.halls} editmode={false} filter={this.state.filter} />
+          </div>
+          <h3 className="col-xs-12">Upcoming Events</h3>
+          <div className="col-xs-12">
+            <HallTable data={this.state.scheduledHalls} editmode={false} scheduled={true} filter={this.state.filter} />
           </div>
         </div>
         <div><center><p align="center">Hubs are automatically deleted after four hours of inactivity</p></center></div>

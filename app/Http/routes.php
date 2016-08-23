@@ -44,6 +44,7 @@ Route::get('json/players/all', 'Auth\AuthController@all');
 Route::get('json/halls/all', 'HallController@all');
 Route::get('json/halls/others', 'HallController@others');
 Route::get('json/halls/owned', 'HallController@owned');
+Route::get('json/halls/scheduled', 'HallController@scheduled');
 Route::post('json/halls/create', 'HallController@register');
 Route::post('json/halls/update', 'HallController@update');
 Route::post('json/halls/delete', 'HallController@delete');

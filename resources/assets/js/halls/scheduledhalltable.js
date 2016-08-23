@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 
 import HallAdder from './halladder';
 
-class HallTable extends React.Component {
+class ScheduledHallTable extends React.Component {
   render() {
     let data = [];
     if (this.props.data) {
@@ -21,11 +21,7 @@ class HallTable extends React.Component {
     let scheduledHead;
     if (this.props.scheduled || this.props.editmode) {
       scheduledHead = <Th column="scheduled">
-        <em>Starts At</em>
-      </Th>;
-    } else {
-      scheduledHead = <Th column="updated">
-        <em>Updated</em>
+        <em>Scheduled For</em>
       </Th>;
     }
     return (
@@ -42,6 +38,9 @@ class HallTable extends React.Component {
               <em>Passcode</em>
             </Th>
             {scheduledHead}
+            <Th column="updated">
+              <em>Updated</em>
+            </Th>
             <Th column="players">
               <em>Players</em>
             </Th>
@@ -56,12 +55,6 @@ class HallTable extends React.Component {
              const d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]).getTime();
              const minutes = Math.floor((utc - d) / 60000);
 
-             let ds;
-             if (hall.scheduled_for) {
-              const s = hall.scheduled_for.split(/[- :]/);
-              ds = new Date(Date.UTC(s[0], s[1]-1, s[2], s[3], s[4], s[5])).toString();
-             }
-
              let cellClass;
              let rowClass;
              if (hall && hall.full) {
@@ -71,26 +64,8 @@ class HallTable extends React.Component {
                rowClass = 'row-onquest';
                cellClass = 'wrap-onquest';
              }
-             let scheduledBody;
-             let scheduledFor = "";
-             if (hall.scheduled_for) {
-               scheduledFor = ds.substring(0, ds.lastIndexOf(":"));
-             }
-             if (this.props.scheduled || this.props.editmode) {
-               scheduledBody = <Td column="scheduled">
-                {scheduledFor}
-               </Td>;
-             }
-             let permalink;
-             let idcode = hall.idcode;
-             if (hall.idcode !== "") {
-               permalink = idcode;
-             } else {
-               permalink = hall.name.replace(/\W+/g, '-').toLowerCase();
-               idcode = "None yet";
-             }
           return (
-             <Tr id="hall-table" onClick = {() => this.props.router.push('/' + permalink) } key={i} className = {rowClass}>
+             <Tr id="hall-table" onClick = {() => this.props.router.push('/' + hall.idcode) } key={i} className = {rowClass}>
                <Td column="name" value={unsafe(hall.name + ' ' + hall.desc)} >
                  <div>
                    <p className = "col-xs-9">
@@ -103,7 +78,7 @@ class HallTable extends React.Component {
                  </div>
                </Td>
                <Td column="idcode">
-              {idcode}
+              {hall.idcode}
             </Td>
             <Td column="pass">
               {hall.pass}
@@ -126,7 +101,6 @@ class HallTable extends React.Component {
             <Td column="updated">
               {minutes + "m ago"}
             </Td>
-            {scheduledBody}
              </Tr>);
           })}
         </Table>
@@ -135,4 +109,4 @@ class HallTable extends React.Component {
   }
 }
 
-export default withRouter(HallTable);
+export default withRouter(ScheduledHallTable);
