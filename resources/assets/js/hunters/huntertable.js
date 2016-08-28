@@ -22,7 +22,10 @@ export default class HunterTable extends React.Component {
             <strong>NNID</strong>
           </Th>
           <Th column="halls">
-            <strong>Active Hubs and Events</strong>
+            <div className="row">
+              <div className="col-xs-8"><strong>Active Hubs and Events</strong></div>
+              <div className="col-xs-4">Starts At (your local time)</div>
+            </div>
           </Th>
         </Thead>
         {data.map((player, i) => {
@@ -50,8 +53,8 @@ export default class HunterTable extends React.Component {
                    console.log("Scheduled for", dateString);
                    permalink = hall.name.replace(/\W+/g, '-').toLowerCase();
                    return <div key={j} className="row">
-              <a className="col-md-7" href={permalink} target="_blank"><b>{hall.name}</b></a>
-                     <div className="col-md-5">{dateString}</div>
+              <a className="col-xs-8" href={permalink} target="_blank"><b>{hall.name}</b></a>
+                     <div className="col-xs-4">{dateString}</div>
                    </div>;
                  }
                  return <div key={j}><a href={permalink} target="_blank"><b>{hall.name}</b></a><br/></div>;

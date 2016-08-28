@@ -206,7 +206,7 @@ class Halls extends React.Component {
             <HallTable data={this.state.scheduledHalls} editmode={false} scheduled={true} filter={this.state.filter} />
           </div>
         </div>
-        <div><center><p align="center">Hubs are automatically deleted after four hours of inactivity. All times are local.</p></center></div>
+        <div><center><p align="center">Hubs are automatically deleted after four hours of inactivity. All dates and times are given in your local timezone.</p></center></div>
         <div className="row">
           <div id="onquest-legend" className="col-xs-2 col-xs-offset-4"><center><p><i className="fa fa-sign-out" style={{align: "middle"}}></i> On Quest</p></center></div>
           <div id="full-legend" className="col-xs-2"><center><p><i className="fa fa-users" style={{align: "middle"}}></i> Full</p></center></div>

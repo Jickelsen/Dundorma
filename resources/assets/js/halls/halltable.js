@@ -21,7 +21,7 @@ class HallTable extends React.Component {
     let scheduledHead;
     if (this.props.scheduled || this.props.editmode) {
       scheduledHead = <Th column="scheduled">
-        <em>Starts At</em>
+        <em>Starts At (your local time)</em>
       </Th>;
     } else {
       scheduledHead = <Th column="updated">
