@@ -26,6 +26,7 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
   mix.copy('node_modules/react-bootstrap-modal/lib/styles/rbm-patch.css', 'public/css/rbm-patch.css');
+  mix.copy('node_modules/react-datetime/css/react-datetime.css', 'public/css/react-datetime.css');
   mix.sass('app.scss');
   mix.browserify('halls.js');
   mix.browserify('profile.js');

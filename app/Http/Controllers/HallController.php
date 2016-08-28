@@ -66,7 +66,6 @@ class HallController extends Controller
         $request->desc = $request->json('desc');
         $request->idcode = $request->json('idcode');
         $request->idcode = $request->json('idcode');
-        $request->scheduled_for = $request->json('scheduled_for');
         $request->pass = $request->json('pass');
         $request->onquest = $request->json('onquest');
         $request->full = $request->json('full');
@@ -85,7 +84,8 @@ class HallController extends Controller
         if ($request->json('scheduled_for') == "") {
             $scheduled_for = null; 
         } else {
-            $scheduled_for = date("Y-m-d H:i:s", $request->json('scheduled_for')/1000);
+            $scheduled_for = $request->json('scheduled_for');
+            // $scheduled_for = date("Y-m-d H:i:s", $request->json('scheduled_for')/1000);
         }
 
         $hall = $owner->halls()->create([
@@ -104,7 +104,6 @@ class HallController extends Controller
         // $hall->save();
         $owner->joinedHall()->associate($hall);
         $owner->save();
-        return $scheduled_for;
     }
 
     public function update(Request $request)
@@ -121,17 +120,26 @@ class HallController extends Controller
 
         $censor = new CensorWords;
 
+        $scheduled_for;
+        if ($request->json('scheduled_for') == "") {
+            $scheduled_for = null; 
+        } else {
+            $scheduled_for = $request->json('scheduled_for');
+        }
+
         $request->user()->halls()->with('owner', 'players')->where('id', '=', $request->id)->update([
         // Hall::with('owner', 'players')->where('id', '!=', $request->id)->update([
             'name' => $censor->censorString($request->json('name'), true)['clean'],
             'desc' => $censor->censorString($request->json('desc'), true)['clean'],
             'idcode' => $request->json('idcode'),
+            'scheduled_for' => $scheduled_for,
             'onquest' => $request->json('onquest'),
             'full' => $request->json('full'),
             'pass' => $request->json('pass'),
             'private' => $request->json('private'),
         ]);
 
+        return $scheduled_for;
     }
 
     public function delete(Request $request)

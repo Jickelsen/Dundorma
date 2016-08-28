@@ -1,7 +1,8 @@
 import React from 'react';
 import Modal from 'react-bootstrap-modal';
 import { withRouter } from 'react-router';
-import DateTimeField from 'react-bootstrap-datetimepicker';
+import DateTime from 'react-datetime';
+import * as moment from 'moment';
 
 const MAX_NAME_LENGTH = 64;
 const MAX_DESC_LENGTH = 100;
@@ -15,20 +16,34 @@ class HallAdder extends React.Component {
   }
   componentDidMount() {
     if (this.props.editmode && this.props.hall) {
-      console.log("hall is", this.props.hall);
       let state = this.state;
       state = {...state, ...{...this.props.hall, editmode: true}};
-      console.log("Fired", this.props.hall.scheduled_for);
       if (this.props.hall.scheduled_for && this.props.hall.scheduled_for !== '') {
-        console.log("Fired 2");
-        state = {...state, scheduled: true};
+        let scheduledTime = this.convertToLocal(this.props.hall.scheduled_for);
+        state = {...state, scheduled: true, scheduled_for: scheduledTime};
       }
       this.setState(state);
     }
   }
+  convertAndSave(handler) {
+    if (this.state.scheduled_for !=="") {
+      const date = new Date();
+      const utcDate = moment.default(this.state.scheduled_for).add(date.getTimezoneOffset(), 'minutes').format("YYYY-MM-DD HH:mm:ss");
+      const state = {...this.state, scheduled_for: utcDate}
+      handler(state);
+    } else {
+      handler(this.state);
+    }
+  }
+  convertToLocal(timeString) {
+    // Needlessly complicated way of converting to local time
+    const date = new Date();
+    return moment.default(this.props.hall.scheduled_for).add(-date.getTimezoneOffset(), 'minutes').format("YYYY-MM-DD HH:mm");
+  }
   componentWillReceiveProps(newProps) {
-    if (!this.state.open) {
-      this.setState({...this.state, ...this.props.hall});
+    if (!this.state.open && newProps.hall) {
+      const state = {...this.state, ...newProps.hall};
+      this.setState({...state, scheduled_for: this.convertToLocal(newProps.hall.scheduled_for)});
     }
   }
   idValidate(value) {
@@ -66,8 +81,7 @@ class HallAdder extends React.Component {
     return len >= minLength && len <= length;
   }
   dateChange (date) {
-    this.state["scheduled_for"] = date;
-    this.forceUpdate();
+    this.setState({...this.state, scheduled_for: date.format("YYYY-MM-DD HH:mm")})
   }
   stateChange (key, value) {
     if (key === 'idcode') {
@@ -86,10 +100,10 @@ class HallAdder extends React.Component {
     }
     this.state[key] = value;
     if (this.state.editmode && key === 'full') {
-      this.props.addHandler(this.state);
+      this.convertAndSave(this.props.addHandler);
     }
     if (this.state.editmode && key === 'onquest') {
-      this.props.addHandler(this.state);
+      this.convertAndSave(this.props.addHandler);
     }
     this.forceUpdate();
   }
@@ -98,14 +112,13 @@ class HallAdder extends React.Component {
     let saveAndClose = () => {
       let permalink = this.state.idcode;
       if (permalink === "") {
-        const s = this.state.scheduled_for.split(/[- :]/);
         permalink = this.state.name.replace(/\W+/g, '-').toLowerCase();
       }
-      this.props.addHandler(this.state);
+      this.convertAndSave(this.props.addHandler);
       this.setState({...this.state, ...{name:'', desc:'', idcode:'', pass:'', onquest: false, full: false, scheduled: false, scheduled_for:'', open:false}});
       this.props.router.push('/' + permalink);};
     let save = () => {
-      this.props.addHandler(this.state);
+      this.convertAndSave(this.props.addHandler);
     };
     let deleteAndClose = () => {
       this.props.deleteHandler(this.state);
@@ -116,18 +129,21 @@ class HallAdder extends React.Component {
     let ok = (this.idValidate(this.state.idcode) || this.state.scheduled) && this.passValidate(this.state.pass) && this.lenCheck(this.state.name, MAX_NAME_LENGTH, 1) && this.lenCheck(this.state.desc, MAX_DESC_LENGTH, 1);
     let datePicker;
     let idSection;
-      console.log("date is", this.state.scheduled_for);
-      //console.log("props are", this.props);
     if (this.state.scheduled) {
+      let date = new Date();
       if (this.state.scheduled_for !== "") {
-        datePicker = <DateTimeField onChange={this.dateChange.bind(this)} dateTime={this.state.scheduled_for} />;
+        datePicker = <DateTime onChange={this.dateChange.bind(this)} dateFormat="YYYY-MM-DD" timeFormat="HH:mm" value={this.state.scheduled_for} />;
       } else {
-        datePicker = <DateTimeField onChange={this.dateChange.bind(this)} />;
+        const d = new Date();
+        //const cd = (new Date(d.getTime() + (d.getTimezoneOffset() * 60 * 1000).toISOString().replace(/z|t/gi,' ');
+        //const currentDate = cd.substring(0, cd.lastIndexOf(":"));
+        const currentDate = moment.default(d).format("YYYY-MM-DD HH:mm");
+        datePicker = <DateTime onChange={this.dateChange.bind(this)} dateFormat="YYYY-MM-DD" timeFormat="HH:mm" value={currentDate} />;
       }
     } else {
       idSection =
         <div className={"form-group has-feedback " + (this.idValidate(this.state.idcode) && !this.state.viewmode ? "has-success" : "has-warning")}>
-          <label>Hub-ID*</label>
+          <label>Hub ID*</label>
           <input className="form-control" type="text" value={this.state.idcode} onChange = {(e) => this.stateChange("idcode", e.target.value)}/>
           <span className={"glyphicon " + (this.idValidate(this.state.idcode) && !this.state.viewmode ? "" : "glyphicon-warning-sign") + " form-control-feedback"} aria-hidden="true"></span>
         </div>;
@@ -178,7 +194,7 @@ class HallAdder extends React.Component {
           <Modal.Body>
             <div className="form-group">
               <div className="checkbox">
-                <label><input type="checkbox" checked={this.state.scheduled} onChange = {(e) => this.stateChange("scheduled", e.target.checked)}/>Upcoming Event</label>
+                <label><input type="checkbox" checked={this.state.scheduled} onChange = {(e) => this.stateChange("scheduled", e.target.checked)}/>Upcoming Event (uncheck once you have a Hub ID code)</label>
                 {datePicker}
               </div>
             </div>

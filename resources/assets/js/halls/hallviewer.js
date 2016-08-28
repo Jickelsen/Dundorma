@@ -91,7 +91,7 @@ class HallViewer extends React.Component {
               </div>
             </div>
             <p><label>Direct Link</label><input className="form-control" type="text" defaultValue={"http://hunterhubs.com/"+permalink} /></p>
-            <p><label>Permalink to owner's latest active hall</label><input className="form-control" type="text" defaultValue={"http://hunterhubs.com/"+this.props.hall.owner.name.toLowerCase()} /></p>
+            <p><label>Permalink to owner's latest posted hunt</label><input className="form-control" type="text" defaultValue={"http://hunterhubs.com/"+this.props.hall.owner.name.toLowerCase()} /></p>
           </Modal.Body>
           <Modal.Footer>
             <Modal.Dismiss className="btn btn-default">Cancel</Modal.Dismiss>

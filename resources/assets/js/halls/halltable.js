@@ -57,9 +57,11 @@ class HallTable extends React.Component {
              const minutes = Math.floor((utc - d) / 60000);
 
              let ds;
-             if (hall.scheduled_for) {
-              const s = hall.scheduled_for.split(/[- :]/);
-              ds = new Date(Date.UTC(s[0], s[1]-1, s[2], s[3], s[4], s[5])).toString();
+             let scheduledFor = "";
+             if (hall.scheduled_for && hall.scheduled_for !== "") {
+               const s = hall.scheduled_for.split(/[- :]/);
+               ds = new Date(Date.UTC(s[0], s[1]-1, s[2], s[3], s[4], s[5])).toString();
+               scheduledFor = ds.substring(0, ds.lastIndexOf(":"));
              }
 
              let cellClass;
@@ -72,11 +74,7 @@ class HallTable extends React.Component {
                cellClass = 'wrap-onquest';
              }
              let scheduledBody;
-             let scheduledFor = "";
-             if (hall.scheduled_for) {
-               scheduledFor = ds.substring(0, ds.lastIndexOf(":"));
-             }
-             if (this.props.scheduled || this.props.editmode) {
+             if (hall.scheduled_for !== "") {
                scheduledBody = <Td column="scheduled">
                 {scheduledFor}
                </Td>;

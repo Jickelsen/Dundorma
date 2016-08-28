@@ -30,7 +30,7 @@ class Halls extends React.Component {
           setInterval(() => this.loadHallsFromServer('json/halls/all', 'halls'), 10000);
         }
           this.loadHallsFromServer('json/halls/scheduled', 'scheduledHalls');
-          setInterval(() => this.loadHallsFromServer('json/halls/scheduled', 'scheduledHalls'), 60000);
+          setInterval(() => this.loadHallsFromServer('json/halls/scheduled', 'scheduledHalls'), 30000);
       },
     });
   }
@@ -112,10 +112,10 @@ class Halls extends React.Component {
         // In case of guest functionality
         if (this.state.user.id !== 0) {
           this.loadHallsFromServer('json/halls/all', 'halls');
-        this.loadHallsFromServer('json/halls/scheduled', 'scheduledHalls');
+          this.loadHallsFromServer('json/halls/scheduled', 'scheduledHalls');
         } else {
           this.loadHallsFromServer('json/halls/others', 'halls');
-        this.loadHallsFromServer('json/halls/scheduled', 'scheduledHalls');
+          this.loadHallsFromServer('json/halls/scheduled', 'scheduledHalls');
         }
       },
     });
@@ -156,11 +156,9 @@ class Halls extends React.Component {
         }
       }
       if (!hallInfo) {
-        console.log("scheduled halls", this.state.scheduledHalls);
         hallInfo = this.state.scheduledHalls.find(hall => 
           hall.name.replace(/\W+/g, '-').toLowerCase() === this.props.params.selParam.toLowerCase()
         );
-        console.log("found a hall", hallInfo);
       }
       if (hallInfo) {
         popup = React.cloneElement(this.props.children, { hall: hallInfo, joinHandler: this.joinHall.bind(this), leaveHandler: this.leaveHall.bind(this), user: this.state.user });
@@ -208,7 +206,7 @@ class Halls extends React.Component {
             <HallTable data={this.state.scheduledHalls} editmode={false} scheduled={true} filter={this.state.filter} />
           </div>
         </div>
-        <div><center><p align="center">Hubs are automatically deleted after four hours of inactivity</p></center></div>
+        <div><center><p align="center">Hubs are automatically deleted after four hours of inactivity. All times are local.</p></center></div>
         <div className="row">
           <div id="onquest-legend" className="col-xs-2 col-xs-offset-4"><center><p><i className="fa fa-sign-out" style={{align: "middle"}}></i> On Quest</p></center></div>
           <div id="full-legend" className="col-xs-2"><center><p><i className="fa fa-users" style={{align: "middle"}}></i> Full</p></center></div>

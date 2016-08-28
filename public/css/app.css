@@ -122,6 +122,9 @@ td {
 .modal-body {
   color: #d2d2d2; }
 
+.modal-body .rdtPicker {
+  color: #323232; }
+
 .form-group {
   color: #d2d2d2; }
 
