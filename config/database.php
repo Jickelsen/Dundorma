@@ -78,6 +78,14 @@ return [
             'schema' => 'public',
         ],
 
+        'rethinkdb' => [
+            'name'      => 'rethinkdb',
+            'driver'    => 'rethinkdb',
+            'host'      => env('RTDB_HOST', 'localhost'),
+            'port'      => env('RTDB_PORT', 28015),
+            'database'  => env('RTDB_DATABASE', 'homestead'),            
+    ]
+
     ],
 
     /*

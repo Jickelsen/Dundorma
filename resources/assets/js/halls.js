@@ -7,10 +7,18 @@ import HallAdder from './halls/halladder';
 import HallViewer from './halls/hallviewer';
 import Hunters from './hunters';
 
+import io from 'socket.io-client';
+
+
+var socket = io('http://0.0.0.0:3000');
 class Halls extends React.Component {
   constructor(props) {
+    socket.on("chat-channel:App\\Events\\ChatEvent", (message) => {
+      console.log("websocket message is", message);
+      this.setState({...this.state, chatMessage: message.data.chat_data});
+    });
     super(props);
-    this.state = {halls:[], myHalls:[], scheduledHalls:[], filter:""};
+    this.state = {halls:[], myHalls:[], scheduledHalls:[], filter:"", chatMessage:""};
     this.getUser();
   }
   getUser() {

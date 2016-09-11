@@ -13,6 +13,8 @@
     "laravel-elixir": "^5.0.0"
   },
   "dependencies": {
+    "express": "^4.14.0",
+    "ioredis": "^2.3.0",
     "moment": "^2.14.1",
     "react": "^0.14.8",
     "react-bootstrap-modal": "^2.1.0",
@@ -22,6 +24,7 @@
     "react-router": "^2.6.0",
     "reactable": "^0.13.2",
     "redux": "^3.5.2",
+    "socket.io": "^1.4.8",
     "whatwg-fetch": "^1.0.0"
   }
 }

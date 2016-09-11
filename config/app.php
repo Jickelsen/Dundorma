@@ -159,6 +159,8 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
 
+        duxet\Rethinkdb\RethinkdbServiceProvider::class,
+
     ],
 
     /*

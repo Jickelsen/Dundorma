@@ -56,6 +56,12 @@ Route::get('/profile', 'ProfileController@index');
 Route::get('json/profile', 'ProfileController@getProfile');
 Route::post('json/profile/update', 'ProfileController@update');
 
+//chat
+Route::post('chat/send', 'ChatController@store');
+Route::post('chat/history', 'ChatController@history');
+
+Route::get('fire', 'ChatController@testFire');
+
 //contact
 Route::get('/contact', 
            ['as' => 'contact', 'uses' => 'ContactController@create']);
