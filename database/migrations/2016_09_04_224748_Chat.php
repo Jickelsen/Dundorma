@@ -1,6 +1,6 @@
 <?php
 
-use duxet\Rethinkdb\Schema\Blueprint;
+use duxet\Rethinkdb\Schema\Blueprint as BP2;
 use Illuminate\Database\Migrations\Migration;
 
 class Chat extends Migration
@@ -12,7 +12,13 @@ class Chat extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('chat', function (BP2 $table) {
+            $table->increments('id');
+            $table->integer('room');
+            $table->integer('user');
+            $table->string('message');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -22,6 +28,6 @@ class Chat extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('chat');
     }
 }

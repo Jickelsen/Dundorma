@@ -17,6 +17,10 @@ class Halls extends React.Component {
       console.log("websocket message is", message);
       this.setState({...this.state, chatMessage: message.data.chat_data});
     });
+    socket.on("chatchannel:chatevent", (message) => {
+      console.log("other websocket message is", message);
+      this.setState({...this.state, chatMessage2: message});
+    });
     super(props);
     this.state = {halls:[], myHalls:[], scheduledHalls:[], filter:"", chatMessage:""};
     this.getUser();
